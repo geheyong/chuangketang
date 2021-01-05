@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
-import { Layout, Breadcrumb } from 'antd'
+import { Layout } from 'antd'
 import { getCookie, setCookie } from '../../helpers/cookies'
 import store from '../../store'
 import { Provider } from 'react-redux'
 import { actionCreators as commonAction } from './store'
-import { flattenArrays, getBreadFromLocation } from '../../publicFunction'
+import { flattenArrays } from '../../publicFunction'
 
 import SideMenu from './SideMenu'
 import HeaderCustom from './HeaderCustom'
@@ -38,7 +38,7 @@ class App extends Component {
 
   render() {
     const { collapsed } = this.state
-    const { location } = this.props
+    // const { location } = this.props
     let name
     // if (!getCookie('mspa_user') || getCookie('mspa_user') === 'undefined') {
     //   return <Redirect to='/login' />
@@ -48,7 +48,7 @@ class App extends Component {
 
     let routers = store.getState().get('commonReducer').get('routers').toJS()
     routers = flattenArrays(routers, 'child')
-    const breadcrumbList = getBreadFromLocation(routers, location.pathname)
+    // const breadcrumbList = getBreadFromLocation(routers, location.pathname)
 
     return (
       <Layout>
@@ -61,9 +61,10 @@ class App extends Component {
               <Sider width={200} style={{ background: '#fff' }}>
                 <SideMenu />
               </Sider>
-              <Breadcrumb style={{ margin: '3.4rem 2rem 0' }}>
+              <Layout style={{ padding: '0 24px 24px' }}>
+              {/* <Breadcrumb style={{ margin: '3.4rem 2rem 0' }}>
                 { breadcrumbList.map(item => <Breadcrumb.Item key={item}>{item}</Breadcrumb.Item>) }
-              </Breadcrumb>
+              </Breadcrumb> */}
               <Content style={{ padding: '0 24px', minHeight: 'calc(100vh)' }}>
                 <Switch>
                   {/* <Route exact path={'/app'} component={ (props) => <Index { ...props }/> } /> */}
@@ -71,6 +72,7 @@ class App extends Component {
                   <Route component={noMatch} />
                 </Switch>
               </Content>
+            </Layout>
             </Layout>
           </Content>
 

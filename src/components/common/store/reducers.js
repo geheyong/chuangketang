@@ -10,24 +10,19 @@ const defaultState = fromJS({
   userBillType: [],
   routers: [
     {
-      routerDom: <Route key={'/app'} exact path={'/app'} component={ (props) => <Index { ...props }/> } />,
-      link: '/app',
-      title: '账单记录',
-      key: '/app',
+      routerDom: <Route key={'/app/course'} exact path={'/app/course'} component={ (props) => <Index { ...props }/> } />,
+      link: '/app/course',
+      title: '我的课程',
+      key: '/app/course',
       child: []
     }, {
-      routerDom: null,
-      link: '',
-      title: '信息管理',
-      key: 'app2',
-      child: [{
-        routerDom: <Route key={'/app/type_management'} exact path={'/app/type_management'} component={ (props) => <Index { ...props }/> } />,
-        link: '/app/type_management',
-        title: '支出类型管理',
-        key: '/app/type_management',
-        child: []
-      }]
+      routerDom: <Route key={'/app/tribune'} exact path={'/app/tribune'} component={ (props) => <Index { ...props }/> } />,
+      link: '/app/tribune',
+      title: '论坛',
+      key: '/app/tribune',
+      child: []
     }
+
   ]
 })
 
