@@ -6,7 +6,6 @@ import store from '../../store'
 import { Provider } from 'react-redux'
 import { actionCreators as commonAction } from './store'
 import { flattenArrays } from '../../publicFunction'
-
 import SideMenu from './SideMenu'
 import HeaderCustom from './HeaderCustom'
 // import Index from '../index/index'

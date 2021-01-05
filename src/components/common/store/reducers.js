@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable'
 import { Route } from 'react-router-dom'
 import React from 'react'
+import Course from '../../../view/course/index'
 
 import Index from '../../index'
 import * as constants from './constants'
@@ -10,7 +11,7 @@ const defaultState = fromJS({
   userBillType: [],
   routers: [
     {
-      routerDom: <Route key={'/app/course'} exact path={'/app/course'} component={ (props) => <Index { ...props }/> } />,
+      routerDom: <Route key={'/app/course'} exact path={'/app/course'} component={ (props) => <Course { ...props }/> } />,
       link: '/app/course',
       title: '我的课程',
       key: '/app/course',
