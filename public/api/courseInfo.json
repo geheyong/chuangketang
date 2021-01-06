@@ -1,0 +1,15 @@
+{
+    "success": true,
+    "data" : [
+        {
+            "course_name": "python程序设计",
+            "user_name": "pH值"
+        },{
+            "course_name": "数据结构",
+            "user_name": "电导率"
+        },{
+            "course_name": "计算机网络",
+            "user_name": "浊度"
+        }
+    ]
+}

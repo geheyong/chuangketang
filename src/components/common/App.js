@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Layout } from 'antd'
 import { getCookie, setCookie } from '../../helpers/cookies'
 import store from '../../store'
@@ -9,7 +9,6 @@ import { flattenArrays } from '../../publicFunction'
 
 import SideMenu from './SideMenu'
 import HeaderCustom from './HeaderCustom'
-// import Index from '../index/index'
 import noMatch from './404'
 
 import '../../style/index.less'
@@ -34,17 +33,18 @@ class App extends Component {
       setCookie('mspa_SiderCollapsed', false)
     }
     commonAction.getAllBillTypes()
+    store.dispatch(commonAction.getCourseInfo())
   }
 
   render() {
     const { collapsed } = this.state
     // const { location } = this.props
     let name
-    // if (!getCookie('mspa_user') || getCookie('mspa_user') === 'undefined') {
-    //   return <Redirect to='/login' />
-    // } else {
-    //   name = JSON.parse(getCookie('mspa_user')).username
-    // }
+    if (!getCookie('mspa_user') || getCookie('mspa_user') === 'undefined') {
+      return <Redirect to='/login' />
+    } else {
+      name = JSON.parse(getCookie('mspa_user')).username
+    }
 
     let routers = store.getState().get('commonReducer').get('routers').toJS()
     routers = flattenArrays(routers, 'child')
@@ -61,13 +61,14 @@ class App extends Component {
               <Sider width={200} style={{ background: '#fff' }}>
                 <SideMenu />
               </Sider>
+              <Layout style={{ padding: '0 24px 24px' }}>
               <Content style={{ padding: '0 24px', minHeight: 'calc(100vh)' }}>
                 <Switch>
-                  {/* <Route exact path={'/app'} component={ (props) => <Index { ...props }/> } /> */}
                   { routers.map(item => item.routerDom) }
                   <Route component={noMatch} />
                 </Switch>
               </Content>
+            </Layout>
             </Layout>
           </Content>
 

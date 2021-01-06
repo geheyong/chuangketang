@@ -19,7 +19,7 @@ function fetch(me, params = null, methods = 'post', thenFun = null, catchFun = n
    */
   if (whetherTest) {
     // 设置基础 url，而后设置 url 时会自动拼接
-    axios.defaults.baseURL = 'http://localhost:3008/'
+    axios.defaults.baseURL = 'http://localhost:3000/'
   } else {
     axios.defaults.baseURL = originalUrl
   }
