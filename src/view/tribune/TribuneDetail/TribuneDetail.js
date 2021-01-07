@@ -4,14 +4,14 @@ import { Fragment } from 'react'
 import '../../../style/wrapper.less'
 import courseFace from '../../../style/img/bookFace.png'
 
-import { Button, Select, Modal, Input } from 'antd'
+import { Button, Select, Modal, Input, PageHeader } from 'antd'
 
 class TribuneDetail extends Component {
     constructor(props) {
         super(props)
         this.state = {
             visible: false,
-            course_name: '',
+            course_name: 'python课程',
             // introduction: '',
             chapter: {},
             current_chapter: 0,
@@ -54,9 +54,12 @@ class TribuneDetail extends Component {
             <Fragment>
                 <div className='wrapper'>
                     <div className='name'>
-                    &lt;&lt;
-                        <a href='/app/tribune'className='left' >返回</a>&emsp;
-                        <div className='left'>python程序设计论坛</div>
+                    <PageHeader className='row'
+                     onBack={() => window.history.back()}
+                     title='返回'
+                     />
+                      <span className='name'>{ this.state.course_name + '论坛' }</span>
+                        {/* <div className='left'>python程序设计论坛</div> */}
                         </div>
                         <div className='link_left'></div><br></br>
                             <Select className='tribune_right'
@@ -82,8 +85,13 @@ class TribuneDetail extends Component {
                     <Modal
                         title='输入讨论标题'
                         visible={this.state.visible}
-                        onOk={this.handleOk}
-                        onCancel={this.handleCancel}
+                        footer={[
+                            <Button key='back' onClick={this.handleCancel}>
+                              取消
+                            </Button>,
+                            <Button key='submit' type='primary' onClick={this.handleOk}>
+                              确定
+                                </Button>]}
                      >
                             <Input
                                 style={ { width: 300 } }

@@ -13,8 +13,8 @@ import { getCookie } from '../../helpers/cookies'
 export default class Home extends Component {
     render() {
       const loginComponent = <Redirect to='/login' />
-      const appComponent = <Redirect to='/app' />
-
+      const appComponent = <Redirect to='/app/course' />
+    //   const appComponent = <Redirect to='/app' />
       return (
             getCookie('mspa_user') === null ? loginComponent : appComponent
         )

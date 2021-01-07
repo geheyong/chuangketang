@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Fragment } from 'react'
 
 import '../../style/wrapper.less'
-import courseFace from '../../style/img/bookFace.png'
+import CourseInfo from '../../publicComponents/courses'
 
 import { Button, Select, Modal, Input } from 'antd'
 
@@ -22,7 +23,6 @@ class Course extends Component {
     }
 
     // componentDidMount() {
-
     // }
 
     handleSearch = value => {
@@ -51,6 +51,7 @@ class Course extends Component {
     }
 
     render() {
+        const { courses } = this.props
         return (
             <Fragment>
                 <div className='wrapper'>
@@ -72,15 +73,24 @@ class Course extends Component {
                             </Button>
                         </div>
                     <div className='link'></div>
-                    <div className='courseInfo'>
-                        <img className='courseFace' alt='课程封面' src={courseFace} ></img>
-                    </div>
-
+                    {
+                        courses.map((item, index) => {
+                          return <CourseInfo key={index} info={item} />
+                        })
+                    }
                     <Modal
                         title='申请新课程'
                         visible={this.state.visible}
                         onOk={this.handleOk}
                         onCancel={this.handleCancel}
+                        footer={[
+                            <Button key='back' onClick={this.handleCancel}>
+                              取消
+                            </Button>,
+                            <Button key='submit' type='primary' onClick={this.handleOk}>
+                              确定
+                            </Button>
+                          ]}
                      >
                         <div>课程名称：
                             <Input
@@ -106,4 +116,10 @@ class Course extends Component {
     }
 }
 
-export default Course
+const mapStateToProps = (state) => {
+    return {
+        courses: state.get('commonReducer').get('courses').toJS()
+    }
+}
+
+export default connect(mapStateToProps, null)(Course)

@@ -9,6 +9,7 @@ import { flattenArrays } from '../../publicFunction'
 
 import SideMenu from './SideMenu'
 import HeaderCustom from './HeaderCustom'
+import TribuneDetail from '../../view/tribune/TribuneDetail/TribuneDetail'
 import noMatch from './404'
 
 import '../../style/index.less'
@@ -65,6 +66,7 @@ class App extends Component {
               <Content style={{ padding: '0 24px', minHeight: 'calc(100vh)' }}>
                 <Switch>
                   { routers.map(item => item.routerDom) }
+                  <Route path={'/app/tribune/tribune_detail'} component={TribuneDetail} />
                   <Route component={noMatch} />
                 </Switch>
               </Content>

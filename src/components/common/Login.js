@@ -53,7 +53,8 @@ class NormalLoginForm extends Component {
                     message.success('login successed!')
                     const that = this
                     setTimeout(function() {
-                        that.props.history.push({ pathname: '/app', state: values })
+                        // that.props.history.push({ pathname: '/app', state: values })
+                        that.props.history.push({ pathname: '/app/course', state: values })
                     }, 2000)
                 } else {
                     message.error('login failed!')

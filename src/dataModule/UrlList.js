@@ -8,3 +8,4 @@
  */
 export const originalUrl = 'http://10.41.54.88:8000/api/'
 export const courseInfoUrl = '/api/courseInfo.json'
+export const courseSection = '/api/courseSection.json'

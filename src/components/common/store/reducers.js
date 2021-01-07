@@ -1,8 +1,8 @@
 import { fromJS } from 'immutable'
 import { Route } from 'react-router-dom'
 import React from 'react'
-import Course from '../../../view/course/index'
-import TribuneDetail from '../../../view/tribune/TribuneDetail/TribuneDetail'
+import CourseDetail from '../../../view/course/CourseDetail/CourseDetail'
+// import TribuneDetail from '../../../view/tribune/TribuneDetail/TribuneDetail'
 import Tribune from '../../../view/tribune/index'
 import Index from '../../index'
 import * as constants from './constants'
@@ -12,22 +12,16 @@ const defaultState = fromJS({
   userBillType: [],
   routers: [
     {
-      routerDom: <Route key={'/app/course'} exact path={'/app/course'} component={ (props) => <Course { ...props }/> } />,
-      link: '/app/course',
+      routerDom: <Route key={'/app/course/courseDetail'} exact path={'/app/course/courseDetail'} component={ (props) => <CourseDetail { ...props }/> } />,
+      link: '/app/course/courseDetail',
       title: '我的课程',
-      key: '/app/course',
+      key: '/app/course/courseDetail',
       child: []
     }, {
       routerDom: <Route key={'/app/tribune'} exact path={'/app/tribune'} component={ (props) => <Tribune { ...props }/> } />,
       link: '/app/tribune',
       title: '论坛',
       key: '/app/tribune',
-      child: []
-    }, {
-      routerDom: <Route key={'/app/tribune/tribune_detail'} exact path={'/app/tribune/tribune_detail'} component={ (props) => <TribuneDetail { ...props }/> } />,
-      link: '/app/tribune/tribune_detail',
-      title: '论坛详情',
-      key: '/app/tribune/tribune_detail',
       child: []
     }, {
       routerDom: <Route key={'/app/answerQuestion'} exact path={'/app/answerQuestion'} component={ (props) => <Index { ...props }/> } />,
@@ -43,7 +37,7 @@ const defaultState = fromJS({
       child: []
     }
   ],
-  courseInfo: []
+  courses: []
 })
 
 export default (state = defaultState, action) => {
@@ -53,7 +47,7 @@ export default (state = defaultState, action) => {
     case constants.routers:
       return state.set('routers', action.data)
     case constants.courseInfo:
-      return state.set('courseInfo', fromJS(action.data))
+      return state.set('courses', fromJS(action.data))
     default:
       return state
   }

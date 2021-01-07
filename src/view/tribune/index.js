@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Fragment } from 'react'
+import { connect } from 'react-redux'
 import '../../style/wrapper.less'
-import courseFace from '../../style/img/bookFace.png'
+// import history from '../../components/common/history'
+import CourseInfo from '../../publicComponents/courses'
 
 class Tribune extends Component {
     constructor(props) {
@@ -45,6 +47,7 @@ class Tribune extends Component {
     }
 
     render() {
+        const { courses } = this.props
         return (
             <Fragment>
                 <div className='wrapper'>
@@ -52,15 +55,21 @@ class Tribune extends Component {
                         <div className='left'>课程论坛</div>
                         </div>
                     <div className='link'></div>
-                    <div className='courseInfo'>
-                        <a href='/tribune/tribune_detail'>
-                        <img className='courseFace' alt='课程封面' src={courseFace } ></img>
+                        <a href='/app/tribune/tribune_detail'>
+                        {
+                        courses.map((item, index) => {
+                          return <CourseInfo key={index} info={item}/>
+                        })
+                    }
                         </a>
-                    </div>
                 </div>
             </Fragment>
         )
     }
 }
-
-export default Tribune
+const mapStateToProps = (state) => {
+    return {
+        courses: state.get('commonReducer').get('courses').toJS()
+    }
+}
+export default connect(mapStateToProps, null)(Tribune)
