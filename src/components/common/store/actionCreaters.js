@@ -41,7 +41,6 @@ export const getCourseInfo = () => {
       courseInfoUrl,
       'get',
       function(response) {
-        console.log('success')
         const result = response.data.data
         dispatch(courseInfo(result))
       },

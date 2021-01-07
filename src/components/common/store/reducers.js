@@ -36,7 +36,7 @@ const defaultState = fromJS({
       child: []
     }
   ],
-  courseInfo: []
+  courses: []
 })
 
 export default (state = defaultState, action) => {
@@ -46,7 +46,7 @@ export default (state = defaultState, action) => {
     case constants.routers:
       return state.set('routers', action.data)
     case constants.courseInfo:
-      return state.set('courseInfo', fromJS(action.data))
+      return state.set('courses', fromJS(action.data))
     default:
       return state
   }
