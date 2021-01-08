@@ -56,9 +56,8 @@ class TribuneDetail extends Component {
                     <div className='name'>
                     <PageHeader className='row'
                      onBack={() => window.history.back()}
-                     title='返回'
                      />
-                      <span className='name'>{ this.state.course_name + '论坛' }</span>
+                      <div className='left'>{ this.state.course_name + '论坛' }</div>
                         {/* <div className='left'>python程序设计论坛</div> */}
                         </div>
                         <div className='link_left'></div><br></br>

@@ -5,20 +5,20 @@ import { Fragment } from 'react'
 import '../../style/wrapper.less'
 import CourseInfo from '../../publicComponents/courses'
 
-import { Button, Select, Modal, Input } from 'antd'
+import { Button, Select, Modal, Input, message } from 'antd'
+import { Model } from '../../dataModule/testBone'
+import store from '../../store'
+import { actionCreators as commonAction } from '../../components/common/store'
+import { getUserUuid } from '../../publicFunction/index'
+import { createCourseUrl } from '../../dataModule/UrlList'
 
-const { TextArea } = Input
+const model = new Model()
 class Course extends Component {
     constructor(props) {
         super(props)
         this.state = {
             visible: false,
-            course_name: '',
-            // introduction: '',
-            chapter: {},
-            current_chapter: 0,
-            data: [],
-            value: undefined,
+            courseName: '',
             courseDetailTeacherPath: '/app/courseDetailTeacher'
         }
     }
@@ -45,10 +45,30 @@ class Course extends Component {
     }
 
     handleCancel = e => {
-        // console.log(e);
         this.setState({
             visible: false
         })
+    }
+
+    handleOk = () => {
+        const me = this
+        model.fetch(
+            { 'course_name': me.state.courseName, 'create_by': getUserUuid() },
+            createCourseUrl,
+            'post',
+            function(response) {
+                // console.log(response)
+                if (response.data.execute_result === '创建成功') {
+                    message.success('创建成功')
+                    store.dispatch(commonAction.getCourseInfo())
+                    me.handleCancel()
+                }
+            },
+            function() {
+                message.error('连接失败，请重试!')
+            },
+            false
+        )
     }
 
     render() {
@@ -69,11 +89,12 @@ class Course extends Component {
                                 onChange={this.handleChange}
                                 notFoundContent={null}
                             >
+                                {/* { courses } */}
                             </Select>&emsp;&emsp;
-                            <Button type='primary' icon='plus' onClick={this.showModal}>
+                            <Button className='right2' type='primary' icon='plus' onClick={this.showModal}>
                                 创建课程
                             </Button>
-                        </div>
+                    </div>
                     <div className='link'></div>
                     { courses.length !== 0
                         ? courses.map((item, index) => {
@@ -82,34 +103,17 @@ class Course extends Component {
                         : null
                     }
                     <Modal
-                        title='申请新课程'
+                        title='创建新课程'
                         visible={this.state.visible}
                         onOk={this.handleOk}
                         onCancel={this.handleCancel}
-                        footer={[
-                            <Button key='back' onClick={this.handleCancel}>
-                              取消
-                            </Button>,
-                            <Button key='submit' type='primary' onClick={this.handleOk}>
-                              确定
-                            </Button>
-                          ]}
+                        destroyOnClose={ true }
                      >
                         <div>课程名称：
                             <Input
                                 style={ { width: 300 } }
                                 placeholder='课程名称'
-                                // value={introduction}
-                                onChange={ (e) => this.setState({ introduction: e.target.value }) }
-                            />
-                        </div>
-                        <div style={ { marginTop: 10 } }><div style={ { float: 'left' } }>课程简称：</div>
-                            <TextArea
-                                rows={4}
-                                placeholder='课程简称'
-                                style={ { width: 300 } }
-                                // value={course_name}
-                                onChange={ (e) => this.setState({ course_name: e.target.value }) }
+                                onChange={ (e) => this.setState({ courseName: e.target.value }) }
                             />
                         </div>
                     </Modal>

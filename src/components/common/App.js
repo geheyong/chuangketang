@@ -46,7 +46,7 @@ class App extends Component {
     if (!getCookie('mspa_user') || getCookie('mspa_user') === 'undefined') {
       return <Redirect to='/login' />
     } else {
-      name = JSON.parse(getCookie('mspa_user')).username
+      name = JSON.parse(getCookie('mspa_user')).user_name
     }
 
     let routers = store.getState().get('commonReducer').get('routers').toJS()

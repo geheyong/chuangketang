@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Icon, Dropdown, Menu } from 'antd'
+import { Layout, Icon, Dropdown, Menu, message } from 'antd'
 import history from './history'
 import { removeCookie } from '../../helpers/cookies'
 import { withRouter } from 'react-router-dom'
@@ -8,10 +8,14 @@ import { Link } from 'react-router-dom'
 import '../../style/header.less'
 import logo from '../../statistics/logo.png'
 import { nowTime } from '../../publicFunction/index'
+import { outLogin } from '../../dataModule/UrlList'
+import { Model } from '../../dataModule/testBone'
+import { getUserUuid } from '../../publicFunction'
 // import { setCookie } from '../../helpers/cookies'
 // import { color } from 'echarts/src/export'
 
 const { Header } = Layout
+const model = new Model()
 
 class HeaderCustom extends Component {
     constructor(props) {
@@ -35,6 +39,18 @@ class HeaderCustom extends Component {
     };
 
     logout = () => {
+      model.fetch(
+        { 'uuid': getUserUuid() },
+        outLogin,
+        'post',
+        function(response) {
+          message.success('登出成功')
+        },
+        function() {
+          message.error('登出失败')
+        },
+        false
+      )
         // 删除登陆信息，并跳转页面
         removeCookie('mspa_user')
         history.push('/login')

@@ -31,11 +31,19 @@ export function getUserName() {
   }
 }
 
-export function getUserId() {
+// export function getUserId() {
+//   if (!getCookie('mspa_user') || getCookie('mspa_user') === 'undefined') {
+//     return createBrowserHistory.push('/login')
+//   } else {
+//     return JSON.parse(getCookie('mspa_user'))._id
+//   }
+// }
+
+export function getUserUuid() {
   if (!getCookie('mspa_user') || getCookie('mspa_user') === 'undefined') {
     return createBrowserHistory.push('/login')
   } else {
-    return JSON.parse(getCookie('mspa_user'))._id
+    return JSON.parse(getCookie('mspa_user')).uuid
   }
 }
 

@@ -3,38 +3,38 @@ import { setCookie } from '../../helpers/cookies'
 import '../../style/login.less'
 import { Form, Icon, Input, Button, Checkbox, message, Spin } from 'antd'
 import Register from './register'
-// import { Model } from '../../dataModule/testBone'
-// import { loginUrl } from '../../dataModule/UrlList'
+import { Model } from '../../dataModule/testBone'
+import { loginUrl } from '../../dataModule/UrlList'
 
 const FormItem = Form.Item
-// const model = new Model()
-const users = [{
-    username: 'admin',
-    password: 'admin'
-}, {
-  username: 'reviewer1',
-  password: 'reviewer1'
-}, {
-  username: 'reviewer2',
-  password: 'reviewer2'
-}, {
-  username: 'reviewer3',
-  password: 'reviewer3'
-}, {
-  username: 'rectifier1',
-  password: 'rectifier1'
-}, {
-  username: 'rectifier2',
-  password: 'rectifier2'
-}, {
-  username: 'rectifier3',
-  password: 'rectifier3'
-}]
+const model = new Model()
+// const users = [{
+//     username: 'admin',
+//     password: 'admin'
+// }, {
+//   username: 'reviewer1',
+//   password: 'reviewer1'
+// }, {
+//   username: 'reviewer2',
+//   password: 'reviewer2'
+// }, {
+//   username: 'reviewer3',
+//   password: 'reviewer3'
+// }, {
+//   username: 'rectifier1',
+//   password: 'rectifier1'
+// }, {
+//   username: 'rectifier2',
+//   password: 'rectifier2'
+// }, {
+//   username: 'rectifier3',
+//   password: 'rectifier3'
+// }]
 
-function PatchUser(values) {
-    const { username, password } = values
-    return users.find(user => user.username === username && user.password === password)
-}
+// function PatchUser(values) {
+//     const { username, password } = values
+//     return users.find(user => user.username === username && user.password === password)
+// }
 
 class NormalLoginForm extends Component {
     state = {
@@ -43,58 +43,58 @@ class NormalLoginForm extends Component {
     };
     handleSubmit = (e) => {
         e.preventDefault()
-        // const me = this
+        const me = this
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                // console.log('Received values of operation: ', values)
-                // model.fetch(
-                //     values,
-                //     loginUrl,
-                //     'post',
-                //     function(response) {
-                //         if (response.data.execute_result === '账号不存在') {
-                //             message.error('账号不存在')
-                //         } else if (response.data.execute_result === '密码错误') {
-                //             message.error('密码错误')
-                //         } else {
-                //             this.setState({
-                //                 isLoding: true
-                //             })
-                //             values['user_name'] = response.data.user.user_name
-                //             values['uuid'] = response.data.user.uuid
-                //             values['role_id'] = response.data.user.role_id
-                //             setCookie('mspa_user', JSON.stringify(values))
-                //             message.success('登录成功')
-                //             setTimeout(function() {
-                //                 // that.props.history.push({ pathname: '/app', state: values })
-                //                 me.props.history.push({ pathname: '/app/course', state: values })
-                //             }, 2000)
-                //         }
-                //     },
-                //     function() {
-                //         message.error('登录失败')
-                //     },
-                //     false
-                // )
+                console.log('Received values of operation: ', values)
+                model.fetch(
+                    values,
+                    loginUrl,
+                    'post',
+                    function(response) {
+                        if (response.data.execute_result === '账号不存在') {
+                            message.error('账号不存在')
+                        } else if (response.data.execute_result === '密码错误') {
+                            message.error('密码错误')
+                        } else {
+                            me.setState({
+                                isLoding: true
+                            })
+                            values['user_name'] = response.data.user.user_name
+                            values['uuid'] = response.data.user.uuid
+                            values['role_id'] = response.data.user.role_id
+                            setCookie('mspa_user', JSON.stringify(values))
+                            message.success('登录成功')
+                            setTimeout(function() {
+                                // that.props.history.push({ pathname: '/app', state: values })
+                                me.props.history.push({ pathname: '/app/course', state: values })
+                            }, 2000)
+                        }
+                    },
+                    function() {
+                        message.error('登录失败')
+                    },
+                    false
+                )
 
-                if (PatchUser(values)) {
-                    this.setState({
-                        isLoding: true
-                    })
-                    values['_id'] = values.username
+                // if (PatchUser(values)) {
+                //     this.setState({
+                //         isLoding: true
+                //     })
+                //     values['_id'] = values.username
 
-                    // console.log(values);
-                    setCookie('mspa_user', JSON.stringify(values))
+                //     // console.log(values);
+                //     setCookie('mspa_user', JSON.stringify(values))
 
-                    message.success('登录成功!')
-                    const that = this
-                    setTimeout(function() {
-                        // that.props.history.push({ pathname: '/app', state: values })
-                        that.props.history.push({ pathname: '/app/course', state: values })
-                    }, 2000)
-                } else {
-                    message.error('登录失败!')
-                }
+                //     message.success('登录成功!')
+                //     const that = this
+                //     setTimeout(function() {
+                //         // that.props.history.push({ pathname: '/app', state: values })
+                //         that.props.history.push({ pathname: '/app/course', state: values })
+                //     }, 2000)
+                // } else {
+                //     message.error('登录失败!')
+                // }
             }
         })
     }
@@ -121,9 +121,9 @@ class NormalLoginForm extends Component {
                     </div>
                     <Form onSubmit={this.handleSubmit} style={{ maxWidth: '300px' }}>
                         <FormItem>
-                            {getFieldDecorator('username', {
-                            // {getFieldDecorator('account', {
-                                rules: [{ required: true, message: '请输入用户名!' }]
+                            {/* {getFieldDecorator('username', { */}
+                            {getFieldDecorator('account', {
+                                rules: [{ required: true, message: '请输入账号!' }]
                             })(
                                 <Input prefix={<Icon type='user' style={{ fontSize: 13 }} />} placeholder='账号 (admin)' />
                             )}

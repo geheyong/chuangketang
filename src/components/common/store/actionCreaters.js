@@ -41,13 +41,13 @@ export const getCourseInfo = () => {
       courseInfoUrl,
       'get',
       function(response) {
-        const result = response.data.data
+        const result = response.data
         dispatch(courseInfo(result))
       },
       function() {
         console.log('error')
       },
-      true
+      false
     )
    }
 }
