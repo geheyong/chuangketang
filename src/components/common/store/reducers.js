@@ -1,8 +1,9 @@
 import { fromJS } from 'immutable'
 import { Route } from 'react-router-dom'
 import React from 'react'
-import Course from '../../../view/course/index'
-
+import CourseDetail from '../../../view/course/CourseDetail/CourseDetail'
+// import TribuneDetail from '../../../view/tribune/TribuneDetail/TribuneDetail'
+import Tribune from '../../../view/tribune/index'
 import Index from '../../index'
 import * as constants from './constants'
 
@@ -11,13 +12,13 @@ const defaultState = fromJS({
   userBillType: [],
   routers: [
     {
-      routerDom: <Route key={'/app/course'} exact path={'/app/course'} component={ (props) => <Course { ...props }/> } />,
-      link: '/app/course',
+      routerDom: <Route key={'/app/course/courseDetail'} exact path={'/app/course/courseDetail'} component={ (props) => <CourseDetail { ...props }/> } />,
+      link: '/app/course/courseDetail',
       title: '我的课程',
-      key: '/app/course',
+      key: '/app/course/courseDetail',
       child: []
     }, {
-      routerDom: <Route key={'/app/tribune'} exact path={'/app/tribune'} component={ (props) => <Index { ...props }/> } />,
+      routerDom: <Route key={'/app/tribune'} exact path={'/app/tribune'} component={ (props) => <Tribune { ...props }/> } />,
       link: '/app/tribune',
       title: '论坛',
       key: '/app/tribune',

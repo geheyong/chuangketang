@@ -1,29 +1,27 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Fragment } from 'react'
 
-import '../../style/wrapper.less'
-import CourseInfo from '../../publicComponents/courses'
+import '../../../style/wrapper.less'
+import courseFace from '../../../style/img/bookFace.png'
 
-import { Button, Select, Modal, Input } from 'antd'
+import { Button, Select, Modal, Input, PageHeader } from 'antd'
 
-const { TextArea } = Input
-class Course extends Component {
+class TribuneDetail extends Component {
     constructor(props) {
         super(props)
         this.state = {
             visible: false,
-            course_name: '',
+            course_name: 'python课程',
             // introduction: '',
             chapter: {},
             current_chapter: 0,
             data: [],
-            value: undefined,
-            courseDetailTeacherPath: '/app/courseDetailTeacher'
+            value: undefined
         }
     }
 
     // componentDidMount() {
+
     // }
 
     handleSearch = value => {
@@ -52,16 +50,21 @@ class Course extends Component {
     }
 
     render() {
-        const { courses } = this.props
-        const { courseDetailTeacherPath } = this.state
         return (
             <Fragment>
                 <div className='wrapper'>
                     <div className='name'>
-                        <div className='left'>我的课程</div>
-                            <Select className='right'
+                    <PageHeader className='row'
+                     onBack={() => window.history.back()}
+                     title='返回'
+                     />
+                      <span className='name'>{ this.state.course_name + '论坛' }</span>
+                        {/* <div className='left'>python程序设计论坛</div> */}
+                        </div>
+                        <div className='link_left'></div><br></br>
+                            <Select className='tribune_right'
                                 // value={this.state.value}
-                                placeholder={'搜索课程'}
+                                placeholder={'搜索帖子'}
                                 defaultActiveFirstOption={false}
                                 showArrow={false}
                                 filterOption={false}
@@ -71,46 +74,38 @@ class Course extends Component {
                             >
                             </Select>&emsp;&emsp;
                             <Button type='primary' icon='plus' onClick={this.showModal}>
-                                创建课程
-                            </Button>
-                        </div>
+                                发起讨论
+                            </Button><br></br><br></br>
                     <div className='link'></div>
-                    {
-                        courses.map((item, index) => {
-                          return <CourseInfo key={index} info={item} path={ courseDetailTeacherPath } />
-                        })
-                    }
+                    <br></br>
+                    <div className='courseInfo'>
+                        <img className='courseFace' alt='课程封面' src={courseFace} ></img>
+                    </div>
+
                     <Modal
-                        title='申请新课程'
+                        title='输入讨论标题'
                         visible={this.state.visible}
-                        onOk={this.handleOk}
-                        onCancel={this.handleCancel}
                         footer={[
                             <Button key='back' onClick={this.handleCancel}>
                               取消
                             </Button>,
                             <Button key='submit' type='primary' onClick={this.handleOk}>
                               确定
-                            </Button>
-                          ]}
+                                </Button>]}
                      >
-                        <div>课程名称：
                             <Input
                                 style={ { width: 300 } }
-                                placeholder='课程名称'
+                                placeholder='讨论标题'
+                                // value={introduction}
+                                onChange={ (e) => this.setState({ introduction: e.target.value }) }
+                            /><br></br><br></br>
+                             <div className='link'></div><br></br>
+                            <Input
+                                style={ { width: 450, height: 200 } }
+                                placeholder='请输入讨论内容'
                                 // value={introduction}
                                 onChange={ (e) => this.setState({ introduction: e.target.value }) }
                             />
-                        </div>
-                        <div style={ { marginTop: 10 } }><div style={ { float: 'left' } }>课程简称：</div>
-                            <TextArea
-                                rows={4}
-                                placeholder='课程简称'
-                                style={ { width: 300 } }
-                                // value={course_name}
-                                onChange={ (e) => this.setState({ course_name: e.target.value }) }
-                            />
-                        </div>
                     </Modal>
                 </div>
             </Fragment>
@@ -118,10 +113,4 @@ class Course extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        courses: state.get('commonReducer').get('courses').toJS()
-    }
-}
-
-export default connect(mapStateToProps, null)(Course)
+export default TribuneDetail

@@ -1,5 +1,5 @@
 import { Model } from '../../../dataModule/testBone'
-import { courseInfoUrl } from '../../../dataModule/UrlList'
+import { courseInfoUrl, courseSection } from '../../../dataModule/UrlList'
 import * as constants from './constants'
 
 // import { Route } from 'react-router-dom'
@@ -52,3 +52,25 @@ export const getCourseInfo = () => {
    }
 }
 
+// const courseSection = (result) => ({
+//   type: constants.courseSection,
+//   data: result
+// })
+
+export const getCourseSection = () => {
+  return (dispatch) => {
+   model.fetch(
+     { },
+     courseSectionUrl,
+     'get',
+     function(response) {
+       const result = response.data.data
+       dispatch(courseSection(result))
+     },
+     function() {
+       console.log('error')
+     },
+     true
+   )
+  }
+}
