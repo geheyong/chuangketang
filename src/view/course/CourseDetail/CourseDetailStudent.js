@@ -8,7 +8,7 @@ import { Tabs } from 'antd'
 import { courseSection } from '../../../dataModule/UrlList'
 
 const { TabPane } = Tabs
-class CourseDetail extends Component {
+class CourseDetailStudent extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -49,4 +49,4 @@ class CourseDetail extends Component {
         courseSection: state.get('commonReducer').get('courseSection').toJS()
       }
   }
-export default connect(mapStateToProps, null)(CourseDetail)
+export default connect(mapStateToProps, null)(CourseDetailStudent)

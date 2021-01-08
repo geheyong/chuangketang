@@ -75,10 +75,11 @@ class Course extends Component {
                             </Button>
                         </div>
                     <div className='link'></div>
-                    {
-                        courses.map((item, index) => {
+                    { courses.length !== 0
+                        ? courses.map((item, index) => {
                           return <CourseInfo key={index} info={item} path={ courseDetailTeacherPath } />
                         })
+                        : null
                     }
                     <Modal
                         title='申请新课程'
