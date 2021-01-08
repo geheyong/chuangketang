@@ -13,6 +13,8 @@ import noMatch from './404'
 
 import '../../style/index.less'
 
+import CourseDetailTeacher from '../../view/course/CourseDetail/CourseDetailTeacher'
+
 const { Content, Footer, Sider } = Layout
 
 class App extends Component {
@@ -32,7 +34,7 @@ class App extends Component {
     if (getCookie('mspa_SiderCollapsed') === null) {
       setCookie('mspa_SiderCollapsed', false)
     }
-    commonAction.getAllBillTypes()
+    // commonAction.getAllBillTypes()
     store.dispatch(commonAction.getCourseInfo())
   }
 
@@ -65,6 +67,7 @@ class App extends Component {
               <Content style={{ padding: '0 24px', minHeight: 'calc(100vh)' }}>
                 <Switch>
                   { routers.map(item => item.routerDom) }
+                  <Route path='/app/courseDetailTeacher' component={(props) => <CourseDetailTeacher {...props}/>} />
                   <Route component={noMatch} />
                 </Switch>
               </Content>

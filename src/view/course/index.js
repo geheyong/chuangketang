@@ -18,7 +18,8 @@ class Course extends Component {
             chapter: {},
             current_chapter: 0,
             data: [],
-            value: undefined
+            value: undefined,
+            courseDetailTeacherPath: '/app/courseDetailTeacher'
         }
     }
 
@@ -52,6 +53,7 @@ class Course extends Component {
 
     render() {
         const { courses } = this.props
+        const { courseDetailTeacherPath } = this.state
         return (
             <Fragment>
                 <div className='wrapper'>
@@ -75,7 +77,7 @@ class Course extends Component {
                     <div className='link'></div>
                     {
                         courses.map((item, index) => {
-                          return <CourseInfo key={index} info={item} />
+                          return <CourseInfo key={index} info={item} path={ courseDetailTeacherPath } />
                         })
                     }
                     <Modal
