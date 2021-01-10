@@ -33,6 +33,12 @@ class Course extends Component {
         })
     }
 
+    showModal = () => {
+        this.setState({
+            visible: true
+        })
+    }
+
     handleOk = () => {
         const me = this
         model.fetch(
@@ -64,7 +70,7 @@ class Course extends Component {
                     <div className='name'>
                         <div className='left'>我的课程</div>
                             <Search className='right'
-                                placeholder='input search text'
+                                placeholder='搜索课程'
                                 onSearch={value => console.log(value)}
                                 style={{ width: 200 }}
                             >
