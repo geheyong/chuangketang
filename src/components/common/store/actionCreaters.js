@@ -29,6 +29,7 @@ export const getAllBillTypes = () => {
   // )
 }
 
+// 获得角色所属的课程信息
 const courseInfo = (result) => ({
   type: constants.courseInfo,
   data: result
@@ -41,16 +42,22 @@ export const getCourseInfo = () => {
       courseInfoUrl,
       'get',
       function(response) {
-        const result = response.data
+        const result = response.data.data
         dispatch(courseInfo(result))
       },
       function() {
         console.log('error')
       },
-      false
+      true
     )
    }
 }
+
+// 获得角色搜索课程信息
+// const searchCourseInfo = (result) => ({
+//   type: constants.searchCourseInfo,
+//   data: result
+// })
 
 // const courseSection = (result) => ({
 //   type: constants.courseSection,

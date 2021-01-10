@@ -13,7 +13,7 @@ export const registerUrl = 'addUser/'
 export const loginUrl = 'Login/'
 export const outLogin = 'Logout/'
 
-// export const courseInfoUrl = '/api/courseInfo.json'
-export const courseInfoUrl = 'getAllCreatedCourse/' // 获得已经创建课程
+export const courseInfoUrl = '/api/courseInfo.json'
+// export const courseInfoUrl = 'getAllCreatedCourse/' // 获得已经创建课程
 export const createCourseUrl = 'addCourse/'
 export const courseSection = '/api/courseSection.json'
