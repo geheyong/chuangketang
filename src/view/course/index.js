@@ -5,7 +5,7 @@ import { Fragment } from 'react'
 import '../../style/wrapper.less'
 import CourseInfo from '../../publicComponents/courses'
 
-import { Button, Select, Modal, Input, message } from 'antd'
+import { Button, Modal, Input, message } from 'antd'
 import { Model } from '../../dataModule/testBone'
 import store from '../../store'
 import { actionCreators as commonAction } from '../../components/common/store'
@@ -13,6 +13,7 @@ import { getUserUuid } from '../../publicFunction/index'
 import { createCourseUrl } from '../../dataModule/UrlList'
 
 const model = new Model()
+const { Search } = Input
 class Course extends Component {
     constructor(props) {
         super(props)
@@ -25,24 +26,6 @@ class Course extends Component {
 
     // componentDidMount() {
     // }
-
-    handleSearch = value => {
-        if (value) {
-          fetch(value, data => this.setState({ data }))
-        } else {
-          this.setState({ data: [] })
-        }
-    }
-
-    handleChange = value => {
-        this.setState({ value })
-    }
-
-    showModal = () => {
-        this.setState({
-            visible: true
-        })
-    }
 
     handleCancel = e => {
         this.setState({
@@ -74,23 +57,18 @@ class Course extends Component {
     render() {
         const { courses } = this.props
         const { courseDetailTeacherPath } = this.state
+
         return (
             <Fragment>
                 <div className='wrapper'>
                     <div className='name'>
                         <div className='left'>我的课程</div>
-                            <Select className='right'
-                                // value={this.state.value}
-                                placeholder={'搜索课程'}
-                                defaultActiveFirstOption={false}
-                                showArrow={false}
-                                filterOption={false}
-                                onSearch={this.handleSearch}
-                                onChange={this.handleChange}
-                                notFoundContent={null}
+                            <Search className='right'
+                                placeholder='搜索课程'
+                                onSearch={value => console.log(value)}
+                                style={{ width: 200 }}
                             >
-                                {/* { courses } */}
-                            </Select>&emsp;&emsp;
+                            </Search>&emsp;&emsp;
                             <Button className='right2' type='primary' icon='plus' onClick={this.showModal}>
                                 创建课程
                             </Button>
