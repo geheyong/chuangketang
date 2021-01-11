@@ -2,6 +2,7 @@ import { fromJS } from 'immutable'
 import { Route } from 'react-router-dom'
 import React from 'react'
 import Course from '../../../view/course/index'
+import StudentCourse from '../../../view/studentCourse/index'
 // import TribuneDetail from '../../../view/tribune/TribuneDetail/TribuneDetail'
 import Tribune from '../../../view/tribune/index'
 import Index from '../../index'
@@ -16,6 +17,12 @@ const defaultState = fromJS({
       link: '/app/course',
       title: '我的课程',
       key: '/app/course',
+      child: []
+    }, {
+      routerDom: <Route key={'/app/studentCourse'} exact path={'/app/studentCourse'} component={ (props) => <StudentCourse { ...props }/> } />,
+      link: '/app/studentCourse',
+      title: '我的课程（学生）',
+      key: '/app/studentCourse',
       child: []
     }, {
       routerDom: <Route key={'/app/tribune'} exact path={'/app/tribune'} component={ (props) => <Tribune { ...props }/> } />,

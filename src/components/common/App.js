@@ -15,6 +15,7 @@ import noMatch from './404'
 import '../../style/index.less'
 
 import CourseDetailTeacher from '../../view/course/CourseDetail/CourseDetailTeacher'
+import CourseDetailStudent from '../../view/studentCourse/courseDetail/CourseDetailStudent'
 
 const { Content, Footer, Sider } = Layout
 
@@ -69,6 +70,7 @@ class App extends Component {
                 <Switch>
                   { routers.map(item => item.routerDom) }
                   <Route path='/app/courseDetailTeacher' component={(props) => <CourseDetailTeacher {...props}/>} />
+                  <Route path='/app/courseDetailStudent' component={(props) => <CourseDetailStudent {...props}/>} />
                   <Route path={'/app/tribune/tribune_detail'} component={TribuneDetail} />
                   <Route component={noMatch} />
                 </Switch>
