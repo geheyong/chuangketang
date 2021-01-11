@@ -1,5 +1,5 @@
 import { Model } from '../../../dataModule/testBone'
-import { courseInfoUrl, searchCourseUrl, getSectionUrl } from '../../../dataModule/UrlList'
+import { courseInfoUrl, courseSectionUrl } from '../../../dataModule/UrlList'
 import * as constants from './constants'
 
 // import { Route } from 'react-router-dom'
@@ -29,7 +29,6 @@ export const getAllBillTypes = () => {
   // )
 }
 
-// 获得角色所属的课程信息
 const courseInfo = (result) => ({
   type: constants.courseInfo,
   data: result
@@ -53,50 +52,25 @@ export const getCourseInfo = () => {
    }
 }
 
-// 获得角色搜索课程信息
-const searchCourseInfo = (result) => ({
-  type: constants.searchCourseInfo,
-  data: result
-})
+// const courseSection = (result) => ({
+//   type: constants.courseSection,
+//   data: result
+// })
 
-export const getsearchCourseInfo = (name) => {
+export const getCourseSection = () => {
   return (dispatch) => {
    model.fetch(
-     { 'course_name': name },
-     searchCourseUrl,
+     { },
+     courseSectionUrl,
      'get',
      function(response) {
        const result = response.data.data
-       dispatch(searchCourseInfo(result))
-     },
-     function() {
-       console.log('error')
-     },
-     true
-   )
-  }
-}
-
-// 获得课程对应章节
-const courseSection = (result) => ({
-  type: constants.courseSection,
-  data: result
-})
-
-export const getCourseSection = (uuid) => {
-  return (dispatch) => {
-   model.fetch(
-     { 'course_id': uuid },
-     getSectionUrl,
-     'get',
-     function(response) {
-       const result = response.data
        dispatch(courseSection(result))
      },
      function() {
        console.log('error')
      },
-     false
+     true
    )
   }
 }

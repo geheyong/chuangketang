@@ -47,20 +47,26 @@ class StudentCourse extends Component {
         this.state = {
             visible: false,
             courseName: '',
-            inputValue: '',
+            inputValueCouse: '',
             courseDetailTeacherPath: '/app/courseDetailStudent'
             // emptyText: '暂无数据'
         }
         this.searchInfo = this.searchInfo.bind(this)
-        this.handleInputValue = this.handleInputValue.bind(this)
+        this.handleInputValueTeacher = this.handleInputValueTeacher.bind(this)
+        this.handleInputValueCourse = this.handleInputValueCourse.bind(this)
     }
-    handleInputValue = (e) => {
+    handleInputValueCourse = (e) => {
         this.setState({
-            inputValue: e.target.value
+            inputValueCouse: e.target.value
+        })
+    }
+    handleInputValueTeacher = (e) => {
+        this.setState({
+            InputValueTeacher: e.target.value
         })
     }
     searchInfo = () => {
-        const value = this.state.inputValue
+        const value = this.state.InputValueTeacher + this.state.inputValueCouse
         console.log(value)
     }
     // componentDidMount() {
@@ -121,14 +127,14 @@ class StudentCourse extends Component {
                                 <div className='input'>教师:</div>
                                 <Input
                                     style={{ width: '200px' }}
-                                    value={ this.state.inputValue }
+                                    onChange = {this.handleInputValueTeacher}
                                 />
                             </div>
                             <div className='inputWrapper' >
                                 <div className='input'>课程名称:</div>
                                 <Input style={{ width: '200px' } }
                                 // value = {this.state.inputValue}
-                                onChange = {this.handleInputValue}
+                                onChange = {this.handleInputValueCourse}
                              />
                             </div>
                             <div style={{ marginTop: '40px', marginLeft: '260px' }}>
