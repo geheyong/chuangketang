@@ -47,6 +47,14 @@ export function getUserUuid() {
   }
 }
 
+export function getUserRoleId() {
+  if (!getCookie('mspa_user') || getCookie('mspa_user') === 'undefined') {
+    return createBrowserHistory.push('/login')
+  } else {
+    return JSON.parse(getCookie('mspa_user')).role_id
+  }
+}
+
 export function handleChange(value, type, me) {
   if (value === '' || value === undefined) value = null
   const form = me.state

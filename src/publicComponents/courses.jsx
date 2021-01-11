@@ -7,7 +7,8 @@ import { Model } from '../dataModule/testBone'
 import store from '../store'
 import { actionCreators as commonAction } from '../components/common/store'
 
-import { deleteCourseUrl } from '../dataModule/UrlList'
+import { deleteCourseUrl, studentDeleteCourseUrl } from '../dataModule/UrlList'
+import { getUserRoleId } from '../publicFunction/index'
 
 const model = new Model()
 const { confirm } = Modal
@@ -15,7 +16,6 @@ class CourseInfo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-
         }
     }
 
@@ -28,29 +28,35 @@ class CourseInfo extends Component {
     }
 
     showDeleteConfirm = () => {
-        const me = this
+        // const me = this
         confirm({
             title: '您确定要删除此课程?',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
             onOk() {
+                // console.log(getUserRoleId())
             //   console.log(me.props.info.course_id)
-              me.deleteCourse(me.props.info.course_id)
+            if (getUserRoleId() === 'e6bb794250d611ebb44a5254006e8f56') {
+                me.deleteCourse(me.props.info.course_id, studentDeleteCourseUrl, store.dispatch(commonAction.getStudentCourseInfo()))
+            } else {
+                me.deleteCourse(me.props.info.course_id, deleteCourseUrl, store.dispatch(commonAction.getCourseInfo()))
+            }
             }
           })
     }
 
-    deleteCourse = (uuid) => {
+    deleteCourse = (uuid, url, f) => {
         model.fetch(
             { 'course_id': uuid },
-            deleteCourseUrl,
+            url,
             'post',
             function(response) {
                 console.log(response)
                 if (response.data.execute_result === '删除成功') {
                     message.success('删除成功')
-                    store.dispatch(commonAction.getCourseInfo())
+                    f()
+                    // store.dispatch(commonAction.getCourseInfo())
                 } else {
                     message.error('删除失败')
                 }

@@ -38,6 +38,7 @@ class App extends Component {
     }
     // commonAction.getAllBillTypes()
     store.dispatch(commonAction.getCourseInfo())
+    store.dispatch(commonAction.getStudentCourseInfo())
   }
 
   render() {

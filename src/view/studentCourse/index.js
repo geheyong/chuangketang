@@ -44,7 +44,7 @@ class StudentCourse extends Component {
     }
 
     render() {
-        const { courses } = this.props
+        const { studentCourses } = this.props
         const { courseDetailTeacherPath } = this.state
 
         return (
@@ -63,8 +63,8 @@ class StudentCourse extends Component {
                             </Button>
                     </div>
                     <div className='link'></div>
-                    { courses.length !== 0
-                        ? courses.map((item, index) => {
+                    { studentCourses.length !== 0
+                        ? studentCourses.map((item, index) => {
                           return <CourseInfo key={index} info={item} path={ courseDetailTeacherPath } />
                         })
                         : null
@@ -105,7 +105,7 @@ class StudentCourse extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        courses: state.get('commonReducer').get('courses').toJS()
+        studentCourses: state.get('commonReducer').get('studentCourses').toJS()
     }
 }
 

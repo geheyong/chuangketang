@@ -1,11 +1,12 @@
 import { Model } from '../../../dataModule/testBone'
-import { courseInfoUrl, searchCourseUrl, getSectionUrl } from '../../../dataModule/UrlList'
+import { courseInfoUrl, searchCourseUrl, getSectionUrl, studentCourseInfoUrl, studentSearchCourseUrl } from '../../../dataModule/UrlList'
 import * as constants from './constants'
 
 // import { Route } from 'react-router-dom'
 // import Index from '../../index'
 // import React from 'react'
 import { fromJS } from 'immutable'
+import { getUserUuid } from '../../../publicFunction/index'
 
 const model = new Model()
 export const dispatchBreadcrumbList = (data) => ({
@@ -29,7 +30,7 @@ export const getAllBillTypes = () => {
   // )
 }
 
-// 获得角色所属的课程信息
+// 获得管理员/老师所属的课程信息
 const courseInfo = (result) => ({
   type: constants.courseInfo,
   data: result
@@ -38,9 +39,9 @@ const courseInfo = (result) => ({
 export const getCourseInfo = () => {
    return (dispatch) => {
     model.fetch(
-      { },
+      { 'user_id': getUserUuid() },
       courseInfoUrl,
-      'get',
+      'post',
       function(response) {
         const result = response.data
         dispatch(courseInfo(result))
@@ -53,7 +54,56 @@ export const getCourseInfo = () => {
    }
 }
 
-// 获得角色搜索课程信息
+// 获得学生对应的课程信息
+const studentCourseInfo = (result) => ({
+  type: constants.studentCourseInfo,
+  data: result
+})
+
+export const getStudentCourseInfo = () => {
+  return (dispatch) => {
+    model.fetch(
+      { 'user_id': getUserUuid() },
+      studentCourseInfoUrl,
+      'post',
+      function(response) {
+        const result = response.data
+        dispatch(studentCourseInfo(result))
+      },
+      function() {
+        console.log('error')
+      },
+      false
+    )
+   }
+}
+
+// 获得学生搜索课程信息
+const studentSearchCourseInfo = (result) => ({
+  type: constants.studentSearchCourseInfo,
+  data: result
+})
+
+export const getStudentSearchCourseInfo = (name) => {
+  return (dispatch) => {
+    model.fetch(
+      { 'course_name': name },
+      studentSearchCourseUrl,
+      'post',
+      function(response) {
+        const result = response.data
+        dispatch(studentSearchCourseInfo(result))
+       // console.log(result)
+      },
+      function() {
+        console.log('error')
+      },
+      false
+    )
+   }
+}
+
+// 获得管理员/老师搜索课程信息
 const searchCourseInfo = (result) => ({
   type: constants.searchCourseInfo,
   data: result
