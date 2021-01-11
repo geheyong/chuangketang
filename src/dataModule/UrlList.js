@@ -23,6 +23,6 @@ export const addSectionUrl = 'addSection/' // 增加章节
 export const updateSectionUrl = 'updateSection/' // 编辑章节
 export const deleteSectionUrl = 'deleteSection/' // 删除章节
 // export const courseSection = '/api/courseSection.json'
-export const studentCourseInfoUrl = 'userRetrieveCourse/' // 获得学生对应的课程
+export const studentCourseInfoUrl = 'userRetrieveSelectedCourse/' // 获得学生对应的课程
 export const studentSearchCourseUrl = '11' // 学生搜索课程
 export const studentDeleteCourseUrl = '22' // 学生退出课程
