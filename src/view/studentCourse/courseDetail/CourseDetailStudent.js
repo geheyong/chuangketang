@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { Fragment } from 'react'
 import '../../../style/wrapper.less'
-// import CourseSection from '../../../publicComponents/courseSection'
+import './style.less'
 import { connect } from 'react-redux'
+import store from '../../../store'
+import { actionCreators as commonAction } from '../../../components/common/store'
 
-import { Tabs } from 'antd'
-// import { courseSection } from '../../../dataModule/UrlList'
+import { Tabs, PageHeader, Tree, Icon } from 'antd'
 
 const { TabPane } = Tabs
+const { TreeNode } = Tree
 class CourseDetailStudent extends Component {
     constructor(props) {
         super(props)
@@ -21,32 +23,62 @@ class CourseDetailStudent extends Component {
             data: [],
             value: undefined
         }
-      }
-        render() {
-            return (
-            <Fragment>
-              <div className='wrapper'>
-             <Tabs type='card'>
-              <TabPane tab='课程目录' key='1'>
-              {/* <p>{
-                        courseSection.map((item, index) => {
-                          return <CourseSection key={index} info={item} />
-                        })
-                    }
-                </p> */}
-              </TabPane>
-              <TabPane tab='提出问题' key='2'>
-                <p>Content of Tab Pane 2</p>
-              </TabPane>
-             </Tabs>
-             </div>
-           </Fragment>
-            )
-        }
     }
-    const mapStateToProps = (state) => {
-      return {
-        // courseSection: state.get('commonReducer').get('courseSection').toJS()
-      }
+
+    componentDidMount() {
+      const course_uuid = this.props.location.state.course_uuid
+      // console.log(this.props.location.state.course_uuid)
+      store.dispatch(commonAction.getCourseSection(course_uuid))
   }
+
+    render() {
+      const { courseSection } = this.props
+
+        return (
+        <Fragment>
+          <div className='wrapper'>
+              <PageHeader className='rowStudent'
+                    onBack={() => window.history.back()}
+            />
+              <Tabs type='card' className='tab'>
+                <TabPane tab='课程目录' key='1'>
+                <div className='catalog'>
+                <div className='title'>目录</div>
+                <div className='content'>
+                    <Tree
+                        className='tree'
+                        switcherIcon={<Icon type='down' />}
+                        defaultExpandAll
+                        onSelect={this.onSelect}
+                    >
+                        { courseSection.length !== 0
+                            ? courseSection.map((item, index) => {
+                            return <TreeNode title={ item.section_name } key={'0-' + index}></TreeNode>
+                            })
+                            : null
+                        }
+                        <TreeNode title='parent 1' key='0-0'></TreeNode>
+                        <TreeNode title='parent 2' key='0-1'></TreeNode>
+                        <TreeNode title='parent 2' key='0-2'></TreeNode>
+                        <TreeNode title='parent 2' key='0-3'></TreeNode>
+                    </Tree>
+                </div>
+            </div>
+                </TabPane>
+                <TabPane tab='提出问题' key='2'>
+                  <p>Content of Tab Pane 2</p>
+                </TabPane>
+              </Tabs>
+          </div>
+        </Fragment>
+        )
+    }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    courseSection: state.get('commonReducer').get('courseSection').toJS()
+  }
+}
+
 export default connect(mapStateToProps, null)(CourseDetailStudent)

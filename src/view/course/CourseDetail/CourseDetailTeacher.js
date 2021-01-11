@@ -1,23 +1,154 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { PageHeader, Tree, Icon } from 'antd'
+import { PageHeader, Tree, Icon, Button, Modal, Input, message } from 'antd'
+import store from '../../../store'
+import { Model } from '../../../dataModule/testBone'
+import { actionCreators as commonAction } from '../../../components/common/store'
+import { addSectionUrl, updateSectionUrl, deleteSectionUrl } from '../../../dataModule/UrlList'
 
 import './style.less'
+import { getUserUuid } from '../../../publicFunction'
 
+const model = new Model()
 const { TreeNode } = Tree
+const { confirm } = Modal
 class CourseDetailTeacher extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            visible: false,
+            editVisible: false,
+            section_name: '',
+            selectSection: '',
+            selectSectionId: ''
         }
+    }
+
+    componentDidMount() {
+        const course_uuid = this.props.location.state.course_uuid
+        console.log(this.props.location.state.course_uuid)
+        store.dispatch(commonAction.getCourseSection(course_uuid))
     }
 
     onSelect = (selectedKeys, info) => {
         console.log('selected', selectedKeys, info)
+        // console.log(info.selectedNodes[0].props.title)
+        if (info.selectedNodes.length !== 0) {
+            this.setState({
+                selectSection: info.selectedNodes[0].props.title,
+                selectSectionId: selectedKeys
+            })
+        } else {
+            this.setState({
+                selectSection: '',
+                selectSectionId: ''
+            })
+        }
+    }
+
+    handleCancel = e => {
+        this.setState({
+            visible: false,
+            editVisible: false
+        })
+    }
+
+    showModal = () => {
+        this.setState({
+            visible: true
+        })
+    }
+
+    onOk = () => {
+        const uuid = this.props.location.state.course_uuid
+        const me = this
+        model.fetch(
+            { 'section_name': me.state.section_name, 'create_by': getUserUuid(), 'course_id': uuid },
+            addSectionUrl,
+            'post',
+            function(response) {
+                // console.log(response)
+                if (response.data.execute_result === '创建成功') {
+                    message.success('创建成功')
+                    store.dispatch(commonAction.getCourseSection())
+                    me.handleCancel()
+                }
+            },
+            function() {
+                message.error('连接失败，请重试!')
+            },
+            false
+        )
+    }
+
+    handledit = () => {
+        const uuid = this.props.location.state.course_uuid
+        const me = this
+        model.fetch(
+            { 'section_name': me.state.selectSection, 'create_by': getUserUuid(), 'course_id': uuid },
+            updateSectionUrl,
+            'post',
+            function(response) {
+                // console.log(response)
+                if (response.data.execute_result === '创建成功') {
+                    message.success('创建成功')
+                    store.dispatch(commonAction.getCourseSection())
+                    me.handleCancel()
+                }
+            },
+            function() {
+                message.error('连接失败，请重试!')
+            },
+            false
+        )
+    }
+
+    showeditSection = () => {
+        if (this.state.selectSection === '') {
+            message.warning('请先选择章节')
+        } else {
+            this.setState({
+                editVisible: true
+            })
+        }
+    }
+
+    showDeleteConfirm = () => {
+        const me = this
+        if (me.state.selectSectionId === '') {
+            message.warning('请先选择章节')
+        } else {
+            confirm({
+                title: '您确定要删除此章节?',
+                okText: '确定',
+                okType: 'danger',
+                cancelText: '取消',
+                onOk() {
+                    me.deleteSection()
+                }
+              })
+        }
+    }
+
+    deleteSection = () => {
+        const me = this
+        model.fetch(
+            { 'section_id': me.state.selectSectionId },
+            deleteSectionUrl,
+            'post',
+            function(response) {
+                message.success('删除成功')
+            },
+            function() {
+                message.error('连接失败，请重试!')
+            },
+            false
+        )
     }
 
     render() {
-        console.log(this.props.location.state.course_uuid)
+        const { courseSection } = this.props
+
         return (
             <div className='wrapper'>
                 <div className='name'>
@@ -27,7 +158,7 @@ class CourseDetailTeacher extends Component {
                     <div className='left'>课程详情</div>
                 </div>
                 <div className='link'></div>
-                <div>
+                <div className='flex'>
                 <div className='catalog'>
                     <div className='title'>目录</div>
                     <div className='content'>
@@ -37,23 +168,64 @@ class CourseDetailTeacher extends Component {
                             defaultExpandAll
                             onSelect={this.onSelect}
                         >
-                            <TreeNode title='parent 1' key='0-0'>
-                                <TreeNode title='parent 1-0' key='0-0-0'></TreeNode>
-                            </TreeNode>
-                            <TreeNode title='parent 2' key='0-1'>
-                                <TreeNode title='parent 2-0' key='0-1-0'></TreeNode>
-                            </TreeNode>
+                            { courseSection.length !== 0
+                                ? courseSection.map((item, index) => {
+                                return <TreeNode title={ item.section_name } key={'0-' + index}></TreeNode>
+                                })
+                                : null
+                            }
+                            <TreeNode title='parent 1' key='0-0'></TreeNode>
+                            <TreeNode title='parent 2' key='0-1'></TreeNode>
+                            <TreeNode title='parent 2' key='0-2'></TreeNode>
+                            <TreeNode title='parent 2' key='0-3'></TreeNode>
                         </Tree>
                     </div>
                 </div>
+                <div className='control'>
+                    <Button type='primary' className='button' onClick={this.showModal}>添加章节</Button>
+                    <Button className='button' onClick={this.showeditSection}>编辑章节</Button>
+                    <Button type='danger' className='button' onClick={ this.showDeleteConfirm } >删除章节</Button>
                 </div>
+                </div>
+                <Modal
+                        title='添加新课程'
+                        visible={this.state.visible}
+                        onOk={this.handleOk}
+                        onCancel={this.handleCancel}
+                        destroyOnClose={ true }
+                     >
+                        <div>章节名称：
+                            <Input
+                                style={ { width: 300 } }
+                                placeholder='章节名称'
+                                onChange={ (e) => this.setState({ section_name: e.target.value }) }
+                            />
+                        </div>
+                </Modal>
+                <Modal
+                        title='编辑章节'
+                        visible={this.state.editVisible}
+                        onOk={this.handledit}
+                        onCancel={this.handleCancel}
+                        destroyOnClose={ true }
+                     >
+                        <div>新章节名称：
+                            <Input
+                                style={ { width: 300 } }
+                                placeholder={this.state.selectSection}
+                                onChange={ (e) => this.setState({ selectSection: e.target.value }) }
+                            />
+                        </div>
+                </Modal>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    return {}
+    return {
+        courseSection: state.get('commonReducer').get('courseSection').toJS()
+    }
 }
 
 export default connect(mapStateToProps, null)(CourseDetailTeacher)

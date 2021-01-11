@@ -1,0 +1,12 @@
+{
+    "success": true,
+    "data" : [
+        {
+            "section_name": "1.python程序设计"
+        },{
+            "section_name": "2.数据结构"
+        },{
+            "section_name": "3.计算机网络"
+        }
+    ]
+}
