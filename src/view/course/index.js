@@ -39,6 +39,19 @@ class Course extends Component {
         })
     }
 
+    searchCourse = (courseName) => {
+        // console.log('courseName', courseName)
+        store.dispatch(commonAction.getsearchCourseInfo())
+    }
+
+    clearNull = (event) => {
+        // console.log(event.target.value)
+        if (event.target.value == null || event.target.value === '') {
+            console.log('触发清空')
+            store.dispatch(commonAction.getCourseInfo())
+        }
+    }
+
     handleOk = () => {
         const me = this
         model.fetch(
@@ -71,8 +84,10 @@ class Course extends Component {
                         <div className='left'>我的课程</div>
                             <Search className='right'
                                 placeholder='搜索课程'
-                                onSearch={value => console.log(value)}
+                                onSearch={value => this.searchCourse(value)}
                                 style={{ width: 200 }}
+                                allowClear
+                                onChange={(event) => this.clearNull(event)}
                             >
                             </Search>&emsp;&emsp;
                             <Button className='right2' type='primary' icon='plus' onClick={this.showModal}>

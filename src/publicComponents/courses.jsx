@@ -2,8 +2,13 @@ import React, { Component } from 'react'
 import courseFace from '../style/img/bookFace.png'
 import '../style/courseInfo.less'
 import history from '../components/common/history'
-import { Modal } from 'antd'
+import { Modal, message } from 'antd'
+import { Model } from '../dataModule/testBone'
+import store from '../store'
 
+import { deleteCourseUrl } from '../dataModule/UrlList'
+
+const model = new Model()
 const { confirm } = Modal
 class CourseInfo extends Component {
     constructor(props) {
@@ -21,15 +26,37 @@ class CourseInfo extends Component {
     }
 
     showDeleteConfirm = () => {
+        const me = this
         confirm({
             title: '您确定要删除此课程?',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-              console.log('OK')
+            //   console.log(me.props.info.uuid)
+              me.deleteCourse(me.props.info.uuid)
             }
           })
+    }
+
+    deleteCourse = (uuid) => {
+        model.fetch(
+            { 'course_id': uuid },
+            deleteCourseUrl,
+            'get',
+            function(response) {
+                if (response.execute_result === '删除成功') {
+                    message.success('删除成功')
+                    store.dispatch(commonAction.getsearchCourseInfo())
+                } else {
+                    message.error('删除失败')
+                }
+            },
+            function() {
+                message.error('连接失败，请重试!')
+            },
+            false
+        )
     }
 
     render() {
