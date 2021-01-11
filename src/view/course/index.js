@@ -41,7 +41,7 @@ class Course extends Component {
 
     searchCourse = (courseName) => {
         // console.log('courseName', courseName)
-        store.dispatch(commonAction.getsearchCourseInfo())
+        store.dispatch(commonAction.getsearchCourseInfo(courseName))
     }
 
     clearNull = (event) => {

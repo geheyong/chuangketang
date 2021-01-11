@@ -26,17 +26,18 @@ class CourseDetailTeacher extends Component {
 
     componentDidMount() {
         const course_uuid = this.props.location.state.course_uuid
-        console.log(this.props.location.state.course_uuid)
+        // console.log(this.props.location.state.course_uuid)
         store.dispatch(commonAction.getCourseSection(course_uuid))
     }
 
     onSelect = (selectedKeys, info) => {
-        console.log('selected', selectedKeys, info)
+        // console.log('selected', selectedKeys, info)
         // console.log(info.selectedNodes[0].props.title)
+        // console.log(selectedKeys[0])
         if (info.selectedNodes.length !== 0) {
             this.setState({
                 selectSection: info.selectedNodes[0].props.title,
-                selectSectionId: selectedKeys
+                selectSectionId: selectedKeys[0]
             })
         } else {
             this.setState({
@@ -68,9 +69,9 @@ class CourseDetailTeacher extends Component {
             'post',
             function(response) {
                 // console.log(response)
-                if (response.data.execute_result === '创建成功') {
-                    message.success('创建成功')
-                    store.dispatch(commonAction.getCourseSection())
+                if (response.data.execute_result === '添加成功') {
+                    message.success('添加成功')
+                    store.dispatch(commonAction.getCourseSection(uuid))
                     me.handleCancel()
                 }
             },
@@ -82,17 +83,18 @@ class CourseDetailTeacher extends Component {
     }
 
     handledit = () => {
+        // console.log(this.state.selectSection)
         const uuid = this.props.location.state.course_uuid
         const me = this
         model.fetch(
-            { 'section_name': me.state.selectSection, 'create_by': getUserUuid(), 'course_id': uuid },
+            { 'section_name': me.state.selectSection, 'section_id': me.state.selectSectionId },
             updateSectionUrl,
             'post',
             function(response) {
                 // console.log(response)
-                if (response.data.execute_result === '创建成功') {
-                    message.success('创建成功')
-                    store.dispatch(commonAction.getCourseSection())
+                if (response.data.execute_result === '修改成功') {
+                    message.success('修改成功')
+                    store.dispatch(commonAction.getCourseSection(uuid))
                     me.handleCancel()
                 }
             },
@@ -104,6 +106,7 @@ class CourseDetailTeacher extends Component {
     }
 
     showeditSection = () => {
+        // console.log(this.state.selectSection)
         if (this.state.selectSection === '') {
             message.warning('请先选择章节')
         } else {
@@ -131,13 +134,20 @@ class CourseDetailTeacher extends Component {
     }
 
     deleteSection = () => {
+        const uuid = this.props.location.state.course_uuid
         const me = this
         model.fetch(
             { 'section_id': me.state.selectSectionId },
             deleteSectionUrl,
             'post',
             function(response) {
-                message.success('删除成功')
+                console.log(response)
+                if (response.data.execute_result === '删除成功') {
+                    message.success('删除成功')
+                    store.dispatch(commonAction.getCourseSection(uuid))
+                } else {
+                    message.error('删除失败')
+                }
             },
             function() {
                 message.error('连接失败，请重试!')
@@ -170,14 +180,10 @@ class CourseDetailTeacher extends Component {
                         >
                             { courseSection.length !== 0
                                 ? courseSection.map((item, index) => {
-                                return <TreeNode title={ item.section_name } key={'0-' + index}></TreeNode>
+                                return <TreeNode title={ item.section_name } key={ item.uuid }></TreeNode>
                                 })
                                 : null
                             }
-                            <TreeNode title='parent 1' key='0-0'></TreeNode>
-                            <TreeNode title='parent 2' key='0-1'></TreeNode>
-                            <TreeNode title='parent 2' key='0-2'></TreeNode>
-                            <TreeNode title='parent 2' key='0-3'></TreeNode>
                         </Tree>
                     </div>
                 </div>
@@ -188,9 +194,9 @@ class CourseDetailTeacher extends Component {
                 </div>
                 </div>
                 <Modal
-                        title='添加新课程'
+                        title='添加新章节'
                         visible={this.state.visible}
-                        onOk={this.handleOk}
+                        onOk={this.onOk}
                         onCancel={this.handleCancel}
                         destroyOnClose={ true }
                      >

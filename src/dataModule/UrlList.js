@@ -13,11 +13,11 @@ export const registerUrl = 'addUser/'
 export const loginUrl = 'Login/'
 export const outLogin = 'Logout/'
 
-export const courseInfoUrl = '/api/courseInfo.json'
-// export const courseInfoUrl = 'getAllCreatedCourse/' // 获得已经创建课程
+// export const courseInfoUrl = '/api/courseInfo.json'
+export const courseInfoUrl = 'getAllCreatedCourse/' // 获得已经创建课程
 export const createCourseUrl = 'addCourse/' // 创建课程
-export const searchCourseUrl = '1' // 搜索课程
-export const deleteCourseUrl = '2' // 删除课程
+export const searchCourseUrl = 'getCreatedCourseDependName/' // 搜索课程
+export const deleteCourseUrl = 'deleteCreatedCourse/' // 删除课程
 export const getSectionUrl = 'getSection/' // 获得课程对应章节
 export const addSectionUrl = 'addSection/' // 增加章节
 export const updateSectionUrl = 'updateSection/' // 编辑章节

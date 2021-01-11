@@ -42,13 +42,13 @@ export const getCourseInfo = () => {
       courseInfoUrl,
       'get',
       function(response) {
-        const result = response.data.data
+        const result = response.data
         dispatch(courseInfo(result))
       },
       function() {
         console.log('error')
       },
-      true
+      false
     )
    }
 }
@@ -64,15 +64,16 @@ export const getsearchCourseInfo = (name) => {
    model.fetch(
      { 'course_name': name },
      searchCourseUrl,
-     'get',
+     'post',
      function(response) {
-       const result = response.data.data
+       const result = response.data
        dispatch(searchCourseInfo(result))
+      // console.log(result)
      },
      function() {
        console.log('error')
      },
-     true
+     false
    )
   }
 }
@@ -88,9 +89,10 @@ export const getCourseSection = (uuid) => {
    model.fetch(
      { 'course_id': uuid },
      getSectionUrl,
-     'get',
+     'post',
      function(response) {
-       const result = response.data
+       const result = response.data.result
+      //  console.log(result)
        dispatch(courseSection(result))
      },
      function() {
