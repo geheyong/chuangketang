@@ -87,7 +87,7 @@ const studentSearchCourseInfo = (result) => ({
 export const getStudentSearchCourseInfo = (name) => {
   return (dispatch) => {
     model.fetch(
-      { 'course_name': name },
+      { 'course_name': name, 'user_id': getUserUuid() },
       studentSearchCourseUrl,
       'post',
       function(response) {
@@ -112,7 +112,7 @@ const searchCourseInfo = (result) => ({
 export const getsearchCourseInfo = (name) => {
   return (dispatch) => {
     model.fetch(
-      { 'course_name': name },
+      { 'course_name': name, 'user_id': getUserUuid() },
      searchCourseUrl,
      'post',
      function(response) {
