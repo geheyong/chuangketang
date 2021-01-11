@@ -111,20 +111,20 @@ const searchCourseInfo = (result) => ({
 
 export const getsearchCourseInfo = (name) => {
   return (dispatch) => {
-   model.fetch(
-     { 'course_name': name },
+    model.fetch(
+      { 'course_name': name },
      searchCourseUrl,
      'post',
      function(response) {
        const result = response.data
+      //  console.log(result)
        dispatch(searchCourseInfo(result))
-      // console.log(result)
      },
      function() {
        console.log('error')
      },
      false
-   )
+    )
   }
 }
 

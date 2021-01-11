@@ -28,7 +28,7 @@ class Course extends Component {
     // }
 
     handleCancel = e => {
-        this.setState({
+       this.setState({
             visible: false
         })
     }

@@ -6,7 +6,7 @@ import '../../style/wrapper.less'
 import './style/indexStyle.less'
 import CourseInfo from '../../publicComponents/courses'
 
-import { Button, Modal, Input } from 'antd'
+import { Button, Modal, Input, Table } from 'antd'
 // import { Model } from '../../dataModule/testBone'
 // import store from '../../store'
 // import { actionCreators as commonAction } from '../../components/common/store'
@@ -15,19 +15,59 @@ import { Button, Modal, Input } from 'antd'
 
 // const model = new Model()
 const { Search } = Input
+const columns = [
+    {
+      title: '课程名称',
+      dataIndex: 'course_name',
+      key: 'course_name'
+    },
+    {
+      title: '管理教师',
+      dataIndex: 'user_name',
+      key: 'user_name'
+    }
+    // {
+    // title: '操作',
+    // align: 'center',
+    // width: 80,
+    // render: (text, record, index) => {
+    //   return [
+    //     <Tooltip placement='top' title={'添加课程'}>
+    //       <Icon type='plus' onClick={() => console.log('添加课程')}/>
+    //     </Tooltip>
+    //     ]
+    //      }
+// }
+  ]
+  const data = [
+  ]
 class StudentCourse extends Component {
     constructor(props) {
         super(props)
         this.state = {
             visible: false,
             courseName: '',
+            inputValueCouse: '',
             courseDetailTeacherPath: '/app/courseDetailStudent'
+            // emptyText: '暂无数据'
         }
     }
-
+    handleInputValueCourse = (e) => {
+        this.setState({
+            inputValueCouse: e.target.value
+        })
+    }
+    handleInputValueTeacher = (e) => {
+        this.setState({
+            InputValueTeacher: e.target.value
+        })
+    }
+    searchInfo = () => {
+        const value = this.state.InputValueTeacher + this.state.inputValueCouse
+        console.log(value)
+    }
     // componentDidMount() {
     // }
-
     handleCancel = e => {
         this.setState({
             visible: false
@@ -84,17 +124,28 @@ class StudentCourse extends Component {
                                 <div className='input'>教师:</div>
                                 <Input
                                     style={{ width: '200px' }}
+                                    onChange = {this.handleInputValueTeacher}
                                 />
                             </div>
                             <div className='inputWrapper' >
                                 <div className='input'>课程名称:</div>
-                                <Input
-                                    style={{ width: '200px' }}
-                                />
+                                <Input style={{ width: '200px' } }
+                                // value = {this.state.inputValue}
+                                onChange = {this.handleInputValueCourse}
+                             />
                             </div>
                             <div style={{ marginTop: '40px', marginLeft: '260px' }}>
-                                <Button type='primary' className='button' onClick={ this.searchInfo }>搜索</Button>
+                            &emsp;&emsp;
+                                <Button type='primary' className='button' onClick={this.searchInfo }>搜索</Button>
                                 <Button className='button' onClick={ this.handleReset }>重置</Button>
+                            </div><br></br>
+                            <div>
+                            <Table columns={columns}
+                            bordered={true}
+                            pagination={false}
+                            dataSource={data}
+                            defaultExpandedRowKeys={1}
+                            emptyText='暂无数据'/>
                             </div>
                         </div>
                     </Modal>

@@ -38,9 +38,11 @@ class CourseInfo extends Component {
                 // console.log(getUserRoleId())
             //   console.log(me.props.info.course_id)
             if (getUserRoleId() === 'e6bb794250d611ebb44a5254006e8f56') {
+                console.log('学生')
                 me.deleteCourse(me.props.info.course_id, studentDeleteCourseUrl, store.dispatch(commonAction.getStudentCourseInfo()))
-            } else {
+            } else if (getUserRoleId() === 'a59a7bc650d611ebb44a5254006e8f56') {
                 me.deleteCourse(me.props.info.course_id, deleteCourseUrl, store.dispatch(commonAction.getCourseInfo()))
+                console.log('老师')
             }
             }
           })
