@@ -1,5 +1,5 @@
 import { Model } from '../../../dataModule/testBone'
-import { courseInfoUrl, courseSectionUrl } from '../../../dataModule/UrlList'
+import { courseInfoUrl, getSectionUrl, searchCourseUrl } from '../../../dataModule/UrlList'
 import * as constants from './constants'
 
 // import { Route } from 'react-router-dom'
@@ -41,36 +41,85 @@ export const getCourseInfo = () => {
       courseInfoUrl,
       'get',
       function(response) {
-        const result = response.data.data
+        const result = response.data
         dispatch(courseInfo(result))
       },
       function() {
         console.log('error')
       },
-      true
+      false
     )
    }
 }
 
-// const courseSection = (result) => ({
-//   type: constants.courseSection,
-//   data: result
-// })
+// // const courseSection = (result) => ({
+// //   type: constants.courseSection,
+// //   data: result
+// // })
 
-export const getCourseSection = () => {
+// export const getCourseSection = () => {
+//   return (dispatch) => {
+//    model.fetch(
+//      { 'course_name': name },
+//      searchCourseUrl,
+//      'post',
+//      function(response) {
+//        const result = response.data
+//        dispatch(searchCourseInfo(result))
+//       // console.log(result)
+//      },
+//      function() {
+//        console.log('error')
+//      },
+//      false
+//    )
+//   }
+// }
+
+const searchCourseInfo = (result) => ({
+  type: constants.searchCourseInfo,
+  data: result
+})
+export const getsearchCourseInfo = (name) => {
+  return (dispatch) => {
+    model.fetch(
+      { 'course_name': name },
+     searchCourseUrl,
+     'post',
+     function(response) {
+       const result = response.data
+      //  console.log(result)
+       dispatch(searchCourseInfo(result))
+     },
+     function() {
+       console.log('error')
+     },
+     false
+    )
+  }
+}
+
+// 获得课程对应章节
+const courseSection = (result) => ({
+  type: constants.courseSection,
+  data: result
+})
+
+export const getCourseSection = (uuid) => {
   return (dispatch) => {
    model.fetch(
-     { },
-     courseSectionUrl,
-     'get',
+     { 'course_id': uuid },
+     getSectionUrl,
+     'post',
      function(response) {
-       const result = response.data.data
+       const result = response.data.result
+      //  console.log(result)
        dispatch(courseSection(result))
      },
      function() {
        console.log('error')
      },
-     true
+     false
    )
   }
 }

@@ -53,14 +53,10 @@ class CourseDetailStudent extends Component {
                     >
                         { courseSection.length !== 0
                             ? courseSection.map((item, index) => {
-                            return <TreeNode title={ item.section_name } key={'0-' + index}></TreeNode>
+                            return <TreeNode title={ item.section_name } key={ item.uuid }></TreeNode>
                             })
                             : null
                         }
-                        <TreeNode title='parent 1' key='0-0'></TreeNode>
-                        <TreeNode title='parent 2' key='0-1'></TreeNode>
-                        <TreeNode title='parent 2' key='0-2'></TreeNode>
-                        <TreeNode title='parent 2' key='0-3'></TreeNode>
                     </Tree>
                 </div>
             </div>

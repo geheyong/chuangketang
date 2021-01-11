@@ -5,6 +5,7 @@ import history from '../components/common/history'
 import { Modal, message } from 'antd'
 import { Model } from '../dataModule/testBone'
 import store from '../store'
+import { actionCreators as commonAction } from '../components/common/store'
 
 import { deleteCourseUrl } from '../dataModule/UrlList'
 
@@ -22,7 +23,8 @@ class CourseInfo extends Component {
     // }
 
     handleClick = () => {
-        history.push({ pathname: this.props.path, state: { course_uuid: this.props.info.uuid }})
+        // console.log(this.props.info)
+        history.push({ pathname: this.props.path, state: { course_uuid: this.props.info.course_id }})
     }
 
     showDeleteConfirm = () => {
@@ -33,8 +35,8 @@ class CourseInfo extends Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-            //   console.log(me.props.info.uuid)
-              me.deleteCourse(me.props.info.uuid)
+            //   console.log(me.props.info.course_id)
+              me.deleteCourse(me.props.info.course_id)
             }
           })
     }
@@ -43,11 +45,12 @@ class CourseInfo extends Component {
         model.fetch(
             { 'course_id': uuid },
             deleteCourseUrl,
-            'get',
+            'post',
             function(response) {
-                if (response.execute_result === '删除成功') {
+                console.log(response)
+                if (response.data.execute_result === '删除成功') {
                     message.success('删除成功')
-                    store.dispatch(commonAction.getsearchCourseInfo())
+                    store.dispatch(commonAction.getCourseInfo())
                 } else {
                     message.error('删除失败')
                 }
