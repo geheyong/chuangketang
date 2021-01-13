@@ -10,8 +10,8 @@ import { Button, Modal, Input, Table, Tooltip, Icon, message } from 'antd'
 import { Model } from '../../dataModule/testBone'
 import store from '../../store'
 import { actionCreators as commonAction } from '../../components/common/store'
-// import { getUserUuid } from '../../publicFunction/index'
-import { studentSearchAddUrl } from '../../dataModule/UrlList'
+import { getUserUuid } from '../../publicFunction/index'
+import { studentSearchAddUrl, studentAddCourse } from '../../dataModule/UrlList'
 
 const model = new Model()
 const { Search } = Input
@@ -26,12 +26,7 @@ class StudentCourse extends Component {
             InputValueTeacher: '',
             courseDetailStudentPath: '/app/courseDetailStudent',
             // emptyText: '暂无数据'
-            data: [
-                { user_name: '孙经理',
-                   course_name: 'jisuanji',
-                   key: 1
-                 }
-             ]
+            data: []
         }
     }
     handleInputValueCourse = (e) => {
@@ -45,21 +40,43 @@ class StudentCourse extends Component {
             InputValueTeacher: e.target.value
         })
     }
-    addStudentCourse = () => {
-        console.log('111')
+
+    addStudentCourse = (record) => {
+        console.log(record)
         model.fetch(
-            {}
+            { 'course_id': record.course_id, 'user_id': getUserUuid() },
+            studentAddCourse,
+            'post',
+            function(response) {
+                console.log(response)
+                if (response.data.execute_result === '已选择此课程') {
+                    message.warning('已选择此课程')
+                } else if (response.data.execute_result === '选课失败') {
+                    message.error('选课失败')
+                } else {
+                    message.success('选课成功')
+                    store.dispatch(commonAction.getStudentCourseInfo())
+                }
+            },
+            function() {
+                message.error('连接失败，请重试!')
+            },
+            false
         )
     }
 
     searchInfo = () => {
+        const me = this
         const { inputValueCouse, InputValueTeacher } = this.state
         model.fetch(
-            { 'jiaoshi': InputValueTeacher, 'course_name': inputValueCouse },
+            { 'user_name': InputValueTeacher, 'course_name': inputValueCouse },
             studentSearchAddUrl,
             'post',
             function(response) {
-                console.log(response)
+                console.log(response.data)
+                me.setState({
+                    data: response.data
+                })
             },
             function() {
                 message.error('连接失败，请重试!')
@@ -127,6 +144,19 @@ class StudentCourse extends Component {
     render() {
         const { studentCourses } = this.props
         const { courseDetailStudentPath, inputValueCouse, InputValueTeacher, data } = this.state
+        const tableData = []
+        if (data !== undefined) {
+            data.map((item, index) => {
+                tableData.push({
+                    course_name: item.course_name,
+                    user_name: item.user_name,
+                    key: index,
+                    course_id: item.course_id
+                })
+                return null
+            })
+        }
+
         const columns = [
             {
               title: '课程名称',
@@ -145,7 +175,7 @@ class StudentCourse extends Component {
             render: (text, record, index) => {
               return [
                 <Tooltip placement='top' title={'添加课程'} key= {index}>
-                  <Icon type='plus' onClick={() => this.addStudentCourse()}/>
+                  <Icon type='plus' onClick={() => this.addStudentCourse(record)}/>
                 </Tooltip>
                 ]
                  }
@@ -211,7 +241,7 @@ class StudentCourse extends Component {
                                 columns={columns}
                                 bordered={true}
                                 pagination={false}
-                                dataSource={data}
+                                dataSource={tableData}
                                 emptyText='暂无数据'
                             />
                             </div>

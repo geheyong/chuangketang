@@ -143,6 +143,10 @@ class CourseDetailTeacher extends Component {
             function(response) {
                 console.log(response)
                 if (response.data.execute_result === '删除成功') {
+                    me.setState({
+                        selectSection: '',
+                        selectSectionId: ''
+                    })
                     message.success('删除成功')
                     store.dispatch(commonAction.getCourseSection(uuid))
                 } else {

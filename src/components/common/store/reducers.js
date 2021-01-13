@@ -8,6 +8,7 @@ import Tribune from '../../../view/tribune/index'
 import Answer from '../../../view/question/answer/index'
 import Question from '../../../view/question/index'
 // import Index from '../../index'
+import PPTShow from '../../../view/ppt/pptShow'
 import * as constants from './constants'
 
 const defaultState = fromJS({
@@ -43,6 +44,12 @@ const defaultState = fromJS({
       link: '/app/question',
       title: '我的问题',
       key: '/app/question',
+      child: []
+    }, {
+      routerDom: <Route key={'/app/ppt'} exact path={'/app/ppt'} component={ (props) => <PPTShow { ...props }/> } />,
+      link: '/app/ppt',
+      title: 'ppt',
+      key: '/app/ppt',
       child: []
     }
   ],

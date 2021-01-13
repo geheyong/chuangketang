@@ -8,7 +8,7 @@ import store from '../store'
 import { actionCreators as commonAction } from '../components/common/store'
 
 import { deleteCourseUrl, studentDeleteCourseUrl } from '../dataModule/UrlList'
-import { getUserRoleId } from '../publicFunction/index'
+import { getUserRoleId, getUserUuid } from '../publicFunction/index'
 
 const model = new Model()
 const { confirm } = Modal
@@ -28,7 +28,7 @@ class CourseInfo extends Component {
     }
 
     showDeleteConfirm = () => {
-        // const me = this
+        const me = this
         confirm({
             title: '您确定要删除此课程?',
             okText: '确定',
@@ -39,16 +39,16 @@ class CourseInfo extends Component {
             //   console.log(me.props.info.course_id)
             if (getUserRoleId() === 'e6bb794250d611ebb44a5254006e8f56') {
                 console.log('学生')
-                me.deleteCourse(me.props.info.course_id, studentDeleteCourseUrl, store.dispatch(commonAction.getStudentCourseInfo()))
+                me.studentDeleteCourse(me.props.info.course_id, studentDeleteCourseUrl)
             } else if (getUserRoleId() === 'a59a7bc650d611ebb44a5254006e8f56') {
-                me.deleteCourse(me.props.info.course_id, deleteCourseUrl, store.dispatch(commonAction.getCourseInfo()))
+                me.teacherDeleteCourse(me.props.info.course_id, deleteCourseUrl)
                 console.log('老师')
             }
             }
           })
     }
 
-    deleteCourse = (uuid, url, f) => {
+    teacherDeleteCourse = (uuid, url) => {
         model.fetch(
             { 'course_id': uuid },
             url,
@@ -57,10 +57,30 @@ class CourseInfo extends Component {
                 console.log(response)
                 if (response.data.execute_result === '删除成功') {
                     message.success('删除成功')
-                    f()
-                    // store.dispatch(commonAction.getCourseInfo())
+                    store.dispatch(commonAction.getCourseInfo())
                 } else {
                     message.error('删除失败')
+                }
+            },
+            function() {
+                message.error('连接失败，请重试!')
+            },
+            false
+        )
+    }
+
+    studentDeleteCourse = (uuid, url) => {
+        model.fetch(
+            { 'course_id': uuid, 'user_id': getUserUuid() },
+            url,
+            'post',
+            function(response) {
+                console.log(response)
+                if (response.data.execute_result === '退课成功') {
+                    message.success('删除成功')
+                    store.dispatch(commonAction.getStudentCourseInfo())
+                } else {
+                    message.error('退课失败')
                 }
             },
             function() {
