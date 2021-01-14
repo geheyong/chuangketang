@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { PageHeader, Tree, Icon, Button, Modal, Input, message } from 'antd'
+import { PageHeader, Tree, Icon, Button, Modal, Input, message, Upload } from 'antd'
 import store from '../../../store'
 import { Model } from '../../../dataModule/testBone'
 import { actionCreators as commonAction } from '../../../components/common/store'
-import { addSectionUrl, updateSectionUrl, deleteSectionUrl } from '../../../dataModule/UrlList'
+import { addSectionUrl, updateSectionUrl, deleteSectionUrl, upLoadUrl } from '../../../dataModule/UrlList'
 
 import './style.less'
 import { getUserUuid } from '../../../publicFunction'
@@ -18,6 +18,7 @@ class CourseDetailTeacher extends Component {
         this.state = {
             visible: false,
             editVisible: false,
+            upLoadvisible: true,
             section_name: '',
             selectSection: '',
             selectSectionId: ''
@@ -37,12 +38,14 @@ class CourseDetailTeacher extends Component {
         if (info.selectedNodes.length !== 0) {
             this.setState({
                 selectSection: info.selectedNodes[0].props.title,
-                selectSectionId: selectedKeys[0]
+                selectSectionId: selectedKeys[0],
+                upLoadvisible: false
             })
         } else {
             this.setState({
                 selectSection: '',
-                selectSectionId: ''
+                selectSectionId: '',
+                upLoadvisible: true
             })
         }
     }
@@ -160,8 +163,36 @@ class CourseDetailTeacher extends Component {
         )
     }
 
+    upLoadPPt = () => {
+        const me = this
+        if (me.state.selectSectionId === '') {
+            message.warning('请先选择章节')
+        } else {
+        }
+    }
+
     render() {
         const { courseSection } = this.props
+        const props = {
+            name: 'file',
+            action: upLoadUrl,
+            headers: {
+                authorization: 'authorization-text'
+            },
+            data: { 'uuid': this.state.selectSectionId },
+            accept: '.pptx',
+            disabled: this.state.upLoadvisible,
+            onChange(info) {
+                if (info.file.status !== 'uploading') {
+                console.log(info.file, info.fileList)
+                }
+                if (info.file.status === 'done') {
+                message.success(`${info.file.name} 上传成功`)
+                } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} 上传失败`)
+                }
+            }
+        }
 
         return (
             <div className='wrapper'>
@@ -181,6 +212,7 @@ class CourseDetailTeacher extends Component {
                             switcherIcon={<Icon type='down' />}
                             defaultExpandAll
                             onSelect={this.onSelect}
+                            blockNode='true'
                         >
                             { courseSection.length !== 0
                                 ? courseSection.map((item, index) => {
@@ -195,6 +227,11 @@ class CourseDetailTeacher extends Component {
                     <Button type='primary' className='button' onClick={this.showModal}>添加章节</Button>
                     <Button className='button' onClick={this.showeditSection}>编辑章节</Button>
                     <Button type='danger' className='button' onClick={ this.showDeleteConfirm } >删除章节</Button>
+                    <Upload {...props}>
+                        <Button className='button' onClick={this.upLoadPPt}>
+                        <Icon type='upload' /> 上传PPT
+                        </Button>
+                    </Upload>
                 </div>
                 </div>
                 <Modal

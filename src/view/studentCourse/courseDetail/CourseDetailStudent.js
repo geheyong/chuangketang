@@ -5,8 +5,9 @@ import './style.less'
 import { connect } from 'react-redux'
 import store from '../../../store'
 import { actionCreators as commonAction } from '../../../components/common/store'
+import history from '../../../components/common/history'
 
-import { Tabs, PageHeader, Tree, Icon } from 'antd'
+import { Tabs, PageHeader, Tree, Icon, Tooltip } from 'antd'
 
 const { TabPane } = Tabs
 const { TreeNode } = Tree
@@ -14,14 +15,7 @@ class CourseDetailStudent extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            visible: false,
-            course_name: '',
-            section_name: '',
-            // introduction: '',
-            chapter: {},
-            current_chapter: 0,
-            data: [],
-            value: undefined
+          selectSectionId: ''
         }
     }
 
@@ -29,6 +23,26 @@ class CourseDetailStudent extends Component {
       const course_uuid = this.props.location.state.course_uuid
       // console.log(this.props.location.state.course_uuid)
       store.dispatch(commonAction.getCourseSection(course_uuid))
+  }
+
+  onSelect = (selectedKeys, info) => {
+    if (info.selectedNodes.length !== 0) {
+      // console.log(11, selectedKeys[0])
+        this.setState({
+            selectSectionId: selectedKeys[0]
+        })
+    } else {
+        this.setState({
+            selectSectionId: ''
+        })
+    }
+  }
+
+  showPPt = () => {
+    setTimeout(() => {
+      // console.log(22, this.state.selectSectionId)
+      history.push({ pathname: '/app/watchPPt', state: { section_uuid: this.state.selectSectionId }})
+    }, 0)
   }
 
     render() {
@@ -50,10 +64,27 @@ class CourseDetailStudent extends Component {
                         switcherIcon={<Icon type='down' />}
                         defaultExpandAll
                         onSelect={this.onSelect}
+                        blockNode='true'
                     >
                         { courseSection.length !== 0
                             ? courseSection.map((item, index) => {
-                            return <TreeNode title={ item.section_name } key={ item.uuid }></TreeNode>
+                            return <TreeNode
+                                    className='treeNode'
+                                    title={(<span>
+                                      {item.section_name}
+                                      <Tooltip title='播放视频'>
+                                        <Icon className='pic' type='play-circle' onClick={() => { console.log('看视频') }} />
+                                      </Tooltip>
+                                      <Tooltip title='查看ppt'>
+                                        <Icon className='pic' type='file-ppt' onClick={ this.showPPt } />
+                                      </Tooltip>
+                                      <Tooltip title='练习题目'>
+                                        <Icon className='pic' type='container' onClick={() => { console.log('做练习') }} />
+                                      </Tooltip>
+                                      </span>)}
+                                    key={ item.uuid }
+                                    >
+                                  </TreeNode>
                             })
                             : null
                         }

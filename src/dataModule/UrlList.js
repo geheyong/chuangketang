@@ -6,6 +6,7 @@
  * @LastEditors: 唐帆
  * @LastEditTime: 2020-04-30 10:46:26
  */
+import request from './request'
 // export const originalUrl = 'http://10.41.54.88:8000/api/'
 export const originalUrl = 'http://10.41.7.235:8084/'
 
@@ -28,3 +29,14 @@ export const studentSearchCourseUrl = 'userRetrieveAimedSelectedCourse/' // 学�
 export const studentDeleteCourseUrl = 'userDeleteCourse/' // 学生退出课程
 export const studentSearchAddUrl = 'userRetrieveCourse/' // 学生添加课程框搜索
 export const studentAddCourse = 'userSelectCourse/' // 学生添加课程
+
+export const upLoadUrl = 'http://10.41.7.235:8085/upload/' // 上传文件的url
+
+export function getPPTElements(data) {
+    return request({
+        method: 'post',
+        url: 'http://10.41.7.235:8000/read_ppt/',
+        data
+    })
+}
+

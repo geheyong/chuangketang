@@ -25,7 +25,7 @@ class PPTShow extends Component {
       'api/ppt_json.json',
       'get',
       function(response) {
-        console.log(response.data)
+        // console.log(response.data)
         me.setState({
           data: response.data
         })
@@ -39,6 +39,7 @@ class PPTShow extends Component {
 
   render() {
     const { data } = this.state
+    if (data === {}) return null
     return (
       <div style={{ overflowX: 'auto', marginTop: 60 }}>
         <PPT data={data} />

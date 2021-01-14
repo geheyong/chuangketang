@@ -8,17 +8,28 @@ class PPT extends Component {
   constructor(props) {
     super(props)
     this.state = {
+        page: '1'
     }
   }
 
   render() {
-      const { data } = this.props
-      if (data === undefined || data === null) return null
-
+    const { data } = this.props
+    const { page } = this.state
+    if (data.elements === undefined || data.elements === null) return null
+    // const width = data.width
+    // const height = data.height
+    console.log(data.elements[page - 1])
+    // const pageInfo = data.elements[page - 1]
+    
     return (
       <div >
-          <div className='ppt' style={{ width: data.width / 10000, height: data.height / 10000 }}>
-              111
+          <div className='ppt' style={{ width: 915, height: 686 }}>
+            {/* {
+                pageInfo.map((item, index) => {
+                    item.type === "text" ?
+                    1 : 0
+                })
+            } */}
           </div>
       </div>
     )

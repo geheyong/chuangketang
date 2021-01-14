@@ -101,7 +101,8 @@ class Course extends Component {
                         })
                         : null
                     }
-                    <Modal
+                </div>
+                <Modal
                         title='创建新课程'
                         visible={this.state.visible}
                         onOk={this.handleOk}
@@ -116,7 +117,6 @@ class Course extends Component {
                             />
                         </div>
                     </Modal>
-                </div>
             </Fragment>
         )
     }

@@ -6,7 +6,8 @@ import StudentCourse from '../../../view/studentCourse/index'
 // import TribuneDetail from '../../../view/tribune/TribuneDetail/TribuneDetail'
 import Tribune from '../../../view/tribune/index'
 import Index from '../../index'
-import PPTShow from '../../../view/ppt/pptShow'
+// import Test from '../../../view/newPPt/index'
+// import UpLoad from '../../../view/upLoad/index'
 import * as constants from './constants'
 
 const defaultState = fromJS({
@@ -43,13 +44,20 @@ const defaultState = fromJS({
       title: '我的问题',
       key: '/app/myQuestion',
       child: []
-    }, {
-      routerDom: <Route key={'/app/ppt'} exact path={'/app/ppt'} component={ (props) => <PPTShow { ...props }/> } />,
-      link: '/app/ppt',
-      title: 'ppt',
-      key: '/app/ppt',
-      child: []
     }
+    // {
+    //   routerDom: <Route key={'/app/ppt'} exact path={'/app/ppt'} component={ (props) => <Test { ...props }/> } />,
+    //   link: '/app/ppt',
+    //   title: 'ppt',
+    //   key: '/app/ppt',
+    //   child: []
+    // }, {
+    //   routerDom: <Route key={'/app/upLoadppt'} exact path={'/app/upLoadppt'} component={ (props) => <UpLoad { ...props }/> } />,
+    //   link: '/app/upLoadppt',
+    //   title: '上传ppt',
+    //   key: '/app/upLoadppt',
+    //   child: []
+    // }
   ],
   courses: [],
   studentCourses: [],

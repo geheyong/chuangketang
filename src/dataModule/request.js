@@ -9,7 +9,7 @@ service.interceptors.request.use(config => {
   // if (getToken()) {
   //   config.headers['x-auth-token'] = getToken() // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
   // }
-  config.headers['x-request-client'] = 'web'
+  // config.headers['x-request-client'] = 'web'
   return config
 }, error => {
   // Do something with request error

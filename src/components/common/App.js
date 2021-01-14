@@ -16,6 +16,7 @@ import '../../style/index.less'
 
 import CourseDetailTeacher from '../../view/course/CourseDetail/CourseDetailTeacher'
 import CourseDetailStudent from '../../view/studentCourse/courseDetail/CourseDetailStudent'
+import Test from '../../view/newPPt/index'
 
 const { Content, Footer, Sider } = Layout
 
@@ -67,12 +68,15 @@ class App extends Component {
                 <SideMenu />
               </Sider>
               <Layout style={{ padding: '0 24px 24px' }}>
+              <div style={{ margin: '3.4rem 2rem 0' }}>
+              </div>
               <Content style={{ padding: '0 24px', minHeight: 'calc(100vh)' }}>
                 <Switch>
                   { routers.map(item => item.routerDom) }
                   <Route path='/app/courseDetailTeacher' component={(props) => <CourseDetailTeacher {...props}/>} />
                   <Route path='/app/courseDetailStudent' component={(props) => <CourseDetailStudent {...props}/>} />
                   <Route path={'/app/tribune/tribune_detail'} component={TribuneDetail} />
+                  <Route path={'/app/watchPPt'} component={Test} />
                   <Route component={noMatch} />
                 </Switch>
               </Content>
