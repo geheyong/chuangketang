@@ -9,7 +9,7 @@ export default class Test extends Component {
     super(props)
     this.state = {
       // ppt_name: 'E:/研一计算机/python和前端练习/python练习/python_pptx/read_ppt_test/PPT/第01章Python概述.pptx',
-      // ppt_name: '第01章Python概述',
+      ppt_name: '第01章Python概述',
       ppt_elements: [],
       ppt_width: 0,
       ppt_height: 0,

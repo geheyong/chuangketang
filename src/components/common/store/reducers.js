@@ -5,9 +5,11 @@ import Course from '../../../view/course/index'
 import StudentCourse from '../../../view/studentCourse/index'
 // import TribuneDetail from '../../../view/tribune/TribuneDetail/TribuneDetail'
 import Tribune from '../../../view/tribune/index'
-import Index from '../../index'
 // import Test from '../../../view/newPPt/index'
 // import UpLoad from '../../../view/upLoad/index'
+import Answer from '../../../view/question/myAnswer/index'
+// import Question from '../../../view/question/index'
+import Index from '../../index'
 import * as constants from './constants'
 
 const defaultState = fromJS({
@@ -33,16 +35,16 @@ const defaultState = fromJS({
       key: '/app/tribune',
       child: []
     }, {
-      routerDom: <Route key={'/app/answerQuestion'} exact path={'/app/answerQuestion'} component={ (props) => <Index { ...props }/> } />,
-      link: '/app/answerQuestion',
+      routerDom: <Route key={'/app/answer'} exact path={'/app/answer'} component={ (props) => <Answer { ...props }/> } />,
+      link: '/app/answer',
       title: '我的答疑',
-      key: '/app/answerQuestion',
+      key: '/app/answer',
       child: []
     }, {
-      routerDom: <Route key={'/app/myQuestion'} exact path={'/app/myQuestion'} component={ (props) => <Index { ...props }/> } />,
-      link: '/app/myQuestion',
+      routerDom: <Route key={'/app/question'} exact path={'/app/question'} component={ (props) => <Index { ...props }/> } />,
+      link: '/app/question',
       title: '我的问题',
-      key: '/app/myQuestion',
+      key: '/app/question',
       child: []
     }
     // {
@@ -61,7 +63,8 @@ const defaultState = fromJS({
   ],
   courses: [],
   studentCourses: [],
-  courseSection: []
+  courseSection: [],
+  questions: []
 })
 
 export default (state = defaultState, action) => {

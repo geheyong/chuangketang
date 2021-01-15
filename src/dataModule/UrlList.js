@@ -9,6 +9,7 @@
 import request from './request'
 // export const originalUrl = 'http://10.41.54.88:8000/api/'
 export const originalUrl = 'http://10.41.7.235:8084/'
+// export const originalUrl = 'http://192.168.1.111:8084/'
 
 export const registerUrl = 'addUser/'
 export const loginUrl = 'Login/'
@@ -30,8 +31,10 @@ export const studentDeleteCourseUrl = 'userDeleteCourse/' // 学生退出课程
 export const studentSearchAddUrl = 'userRetrieveCourse/' // 学生添加课程框搜索
 export const studentAddCourse = 'userSelectCourse/' // 学生添加课程
 
-export const upLoadUrl = 'http://10.41.7.235:8085/upload/' // 上传文件的url
+export const raiseQuestionUrl = 'studentRaiseQuestion/' // 学生提问接口
+export const getCourseDependInfoUrl = 'getCourseDependCourseId/' // 根据课程id获取课程信息接口
 
+export const upLoadUrl = 'http://10.41.7.235:8085/fileupload/' // 上传文件的url
 export function getPPTElements(data) {
     return request({
         method: 'post',
